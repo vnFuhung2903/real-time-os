@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "math.h": "c",
+        "iostream": "cpp",
+        "ostream": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
