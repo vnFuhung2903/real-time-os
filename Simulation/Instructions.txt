@@ -13,121 +13,24 @@ The program will read in the Task Sets from a text file in the given format:
 Begin <indicates the beginning of a new Task Set>
 <number of tasks>
 <number of processors>
-<Y or N indicating if it's preemptive>
-<start time>,<computation time>,<soft deadline>,<hard deadline>,<period>
+<Y or N indicating if it's preemptive> ( bỏ qua luôn dùng hàng đợi ưu tiên tiến trình có deadline sớm hơn được ưu tiên)
+<start time>,<computation time>,<soft deadline>(bỏ qua),<hard deadline>,<period>
 
 If a value doesn't exist in a task set, set the value to 0.
 
 Here is an example Task Set:
 
 Begin
-3
-1
+3  // 3 tiến trình
+1 // 1 processors
 Y
-0,2,5,5,5
+0,2,5,5,5 //  start 0 computation 2 hard deadline 5 period 5
 1,1,4,4,4
 2,2,20,20,20
 
 Notice: For files that have a large amount of taskSets, the LCM has the possibility of an overflow.
         To stop this, the max the LCM could be for any task set is 500.
 
-Instructions for Running the current Main:
----
-1. Select the File to Read: Choose the text file containing the Task Sets you wish to input.
-The program will prompt you to select from predefined files or enter your own file.
-You can also choose to exit the program at this stage.
-
-2. Decide Whether to Write or Print: After selecting the input file, decide whether you want to print
-the results to the console or write them to a file.
-
-3. Select Task Set(s) to Test: Choose whether to test a specific Task Set or all Task Sets available
-in the input file.
-
-4. Select the Algorithm(s): Choose the scheduling algorithm(s) you wish to test:
-EDF (Earliest Deadline First)
-LLF (Least Laxity First)
-Algorithm A
-All algorithms
-
-5. Choose Single Run Time or Multiple Run Average Times: Decide whether to run a single iteration or
-multiple iterations to obtain average times. If selecting multiple runs, specify how many runs to execute.
-
-6. The program will then run with the chosen settings. It will process the selected Task Set(s) and
-algorithm(s) accordingly.
-
-7. View Results: Once the program completes execution, the results of the selected algorithm(s) will be
-displayed. You can view them on the console if chosen to print or check the written file if chosen to
-write.
-
-8. Run Again?: After viewing the results, you will have the option to run the program again with
-different settings or exit the program.
-
-
-
-Instructions for running the program with personal Main:
----
-1. In main, you will need to first instantiate a Schedule, AlgorithmA, EDF_Algorithm, and ScheduleLLF.
-2. Next you will need to run this Schedule method with the name of the file you wish to have read:
-   - void readTaskSets(string filename);
-
-Notice: If you run into any issues/errors with lcm, you need to switch the version of c++ visual studios 
-uses.
-1. Go to project tab
-2. At the bottom click the properties
-3. Change your C++ language standard to 17
-
-You may then run any of these Schedule methods:
-
-writeReults will write to the given filename the output of all algorithms for every task set entered.
-It will also write the average time taken to run each algorithm for the given number of runs.
-- void writeResults(string filename, int numruns, Schedule* EDF, Schedule* LLF, Schedule* AlgorithmA)
-
-
-
-printScheduleEDF will print out the results of the EDF algorithm on the indicated Task Set and Number
-of runs.
-void printScheduleEDF(int index, int numruns, Schedule* EDF)
-
-
-
-printScheduleLLF will print out the results of the LLF algorithm on the indicated Task Set and Number
-of runs.
-void printScheduleLLF(int index, int numruns,  Schedule* LLF)
-
-
-
-printScheduleAlgorithmA will print out the results of the Algorithm-A algorithm on the indicated Task Set
-and Number of runs.
-void printScheduleAlgorithmA(int index, int numruns,  Schedule* AlgorithmA)
-
-
-
-printSchedules will print out the results of all algorithms for the indicated Task Set and Number of runs.
-void printSchedules(int index, int numruns, Schedule* EDF, Schedule* LLF, Schedule* AlgorithmA)
-
-
-
-printScheduleEDFAll will print out the results of the EDF algorithm for all Task Sets read for the given
-Number of runs.
-void printScheduleEDFAll(int numruns, Schedule * EDF)
-
-
-
-printScheduleLLFAll will print out the results of the LLF algorithm for all Task Sets read for the given
-Number of runs.
-void printScheduleLLFAll(int numruns, Schedule* LLF)
-
-
-
-printScheduleAlgorithmAAll will print out the results of the Algorithm-A algorithm for all Task Sets
-read for the given Number of runs.
-void printScheduleAlgorithmAAll(int numruns, Schedule * AlgorithmA)
-
-
-
-printScheduleAll will print out the results of all algorithms for all Task Sets read for the given Number
-of runs.
-void printSchedulesAll(int numruns, Schedule* EDF, Schedule* LLF, Schedule* AlgorithmA)
 
 
 

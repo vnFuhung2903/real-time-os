@@ -14,24 +14,24 @@ private:
     int m_startTime;
     int m_computationTime;
     int m_hardDeadline;
-    int m_softDeadline;
     int m_period;
     int m_currPeriod;
     int m_laxity;
 
 public:
-    Task(string name = "", int startTime = 0, int computationTime = 0, int softDeadline = 0, int hardDeadline = 0, int period = 0){
+    Task(string name = "", int startTime = 0, int computationTime = 0, int hardDeadline = 0, int period = 0)
+    {
         m_name = name;
         m_startTime = startTime;
         m_computationTime = computationTime;
         m_hardDeadline = hardDeadline;
-        m_softDeadline = softDeadline;
         m_period = period;
         m_currPeriod = 1;
         m_laxity = hardDeadline - startTime - computationTime;
     };
 
-    Task &operator=(const Task &task){
+    Task &operator=(const Task &task)
+    {
         if (this == &task)
         {
             return *this;
@@ -40,80 +40,86 @@ public:
         m_startTime = task.m_startTime;
         m_computationTime = task.m_computationTime;
         m_hardDeadline = task.m_hardDeadline;
-        m_softDeadline = task.m_softDeadline;
         m_period = task.m_period;
         m_currPeriod = task.m_currPeriod;
         m_laxity = task.m_laxity;
         return *this;
     };
 
-    int getStartTime(){
+    int getStartTime()
+    {
         return m_startTime;
     };
 
-    void setStartTime(int startTime){
+    void setStartTime(int startTime)
+    {
         m_startTime = startTime;
     };
 
-    int getComputationTime(){
+    int getComputationTime()
+    {
         return m_computationTime;
     };
 
-    void setComputationTime(int computationTime){
+    void setComputationTime(int computationTime)
+    {
         m_computationTime = computationTime;
     };
 
-    int getHardDeadline(){
+    int getHardDeadline()
+    {
         return m_hardDeadline;
     };
 
-    void setHardDeadline(int hardDeadline){
+    void setHardDeadline(int hardDeadline)
+    {
         m_hardDeadline = hardDeadline;
     };
 
-    int getSoftDeadline(){
-        return m_softDeadline;
-    };
-
-    void setSoftDeadline(int softDeadline){
-        m_softDeadline = softDeadline;
-    };
-
-    int getPeriod(){
+    int getPeriod()
+    {
         return m_period;
     };
 
-    void setPeriod(int period){
+    void setPeriod(int period)
+    {
         m_period = period;
     };
 
-    void printTask(){
-        cout << "Start Time: " << m_startTime << ", Computation Time: " << m_computationTime << ", Hard Deadline: " << m_hardDeadline << ", Soft Deadline: " << m_softDeadline << ", Period: " << m_period << endl;
+    void printTask()
+    {
+        cout << "Start Time: " << m_startTime << ", Computation Time: " << m_computationTime << ", Hard Deadline: " << m_hardDeadline << ", Period: " << m_period << endl;
     };
 
-    void setName(string name){
+    void setName(string name)
+    {
         m_name = name;
     };
 
-    string getName(){
+    string getName()
+    {
         return m_name;
     };
 
-    void setLaxity(int laxity){
+    void setLaxity(int laxity)
+    {
         m_laxity = laxity;
     };
 
-    int getLaxity(){
+    int getLaxity()
+    {
         return m_laxity;
     };
 
-    void incrementCurrPeriod(){
+    void incrementCurrPeriod()
+    {
         m_currPeriod++;
     };
 
-    int getCurrPeriod(){
+    int getCurrPeriod()
+    {
         return m_currPeriod;
     };
 };
 
-#endif 
+#endif
