@@ -13,7 +13,7 @@ The program will read in the Task Sets from a text file in the given format:
 Begin <indicates the beginning of a new Task Set>
 <number of tasks>
 <number of processors>
-<Y or N indicating if it's preemptive> ( bỏ qua luôn dùng hàng đợi ưu tiên tiến trình có deadline sớm hơn được ưu tiên)
+<Y or N indicating if it's preemptive> ( bỏ qua, luôn dùng hàng đợi ưu tiên tiến trình có deadline sớm hơn được ưu tiên)
 <start time>,<computation time>,<soft deadline>(bỏ qua),<hard deadline>,<period>
 
 If a value doesn't exist in a task set, set the value to 0.

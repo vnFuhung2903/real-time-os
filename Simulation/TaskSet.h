@@ -53,7 +53,7 @@ public:
 
     void setNumProcessors(int numProcessors);
     void setNumTasks(int numTasks);
-    void removeTask();
+    void removeTask();// remove the highest priorityLevel task
 
     unsigned long long getLCMPeriod();
 
