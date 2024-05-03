@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+#include <set>
+
 
 using namespace std;
 
@@ -10,7 +12,8 @@ class Task
 
 {
 private:
-    string m_name;
+    int m_priorityLevel;
+    string m_name ;
     int m_startTime;
     int m_computationTime;
     int m_hardDeadline;
@@ -21,6 +24,7 @@ private:
 public:
     Task(string name = "", int startTime = 0, int computationTime = 0, int hardDeadline = 0, int period = 0)
     {
+        m_priorityLevel = hardDeadline;
         m_name = name;
         m_startTime = startTime;
         m_computationTime = computationTime;
@@ -36,6 +40,7 @@ public:
         {
             return *this;
         }
+        m_priorityLevel = task.m_priorityLevel;
         m_name = task.m_name;
         m_startTime = task.m_startTime;
         m_computationTime = task.m_computationTime;
@@ -45,8 +50,24 @@ public:
         m_laxity = task.m_laxity;
         return *this;
     };
+    
+    struct CompareTasks {
+        bool operator()(const Task& task1, const Task& task2) const {
+            return task1.getPriorityLevel() < task2.getPriorityLevel();
+        }
+    };
 
-    int getStartTime()
+    int getPriorityLevel() const
+    {
+        return m_priorityLevel;
+    };
+
+    void setPriorityLevel(int priorityLevel) 
+    {
+        m_priorityLevel = priorityLevel;
+    };
+
+    int getStartTime() 
     {
         return m_startTime;
     };
@@ -96,7 +117,7 @@ public:
         m_name = name;
     };
 
-    string getName()
+    string getName() const
     {
         return m_name;
     };
@@ -120,6 +141,8 @@ public:
     {
         return m_currPeriod;
     };
+
+    
 };
 
 #endif

@@ -5,17 +5,19 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <set>
 #include "Task.h"
 
+using std::set;
 using std::string;
-using std::vector;
 
 class TaskSet
 {
 private:
     int m_numTasks;
     int m_numProcessors;
-    std::vector<Task> m_tasks;
+    // std::vector<Task> m_tasks;
+    multiset<Task, Task::CompareTasks> m_tasks;
 
 public:
     TaskSet()
@@ -49,114 +51,100 @@ public:
         m_tasks = taskSet.m_tasks;
         return *this;
     };
-    
-    Task getTask(int index)
+
+
+    Task getHighestPriorityTask()
     {
-        return m_tasks[index];
+        return *m_tasks.begin();
     };
-    
-    vector<Task> getTasks()
+
+    Task getLowestPriorityTask()
     {
-        return m_tasks;
+        return *m_tasks.rbegin();
     };
-    
+
+    // multiset<Task> getTasks()
+    // {
+    //     return m_tasks;
+    // };
+
     void addTask(Task task)
     {
-        m_tasks.push_back(task);
+        m_tasks.insert(task);
         if (m_numTasks < m_tasks.size())
         {
             m_numTasks++;
         }
     };
-    
+
     int getNumTasks()
     {
         return m_numTasks;
     };
-    
+
     int getNumProcessors()
     {
         return m_numProcessors;
     };
-    
+
     double calculateUtilizationRate(Task task)
     {
         return (double)task.getComputationTime() / (double)task.getPeriod();
     };
-    
-    double calculateTotalUtilizationRate()
-    {
-        double totalUtilizationRate = 0;
-        for (int i = 0; i < m_tasks.size(); i++)
-        {
-            totalUtilizationRate += calculateUtilizationRate(m_tasks[i]);
-        }
-        return totalUtilizationRate;
-    };
-    
+
+    // double calculateTotalUtilizationRate()
+    // {
+    //     double totalUtilizationRate = 0;
+    //     for (int i = 0; i < m_tasks.size(); i++)
+    //     {
+    //         totalUtilizationRate += calculateUtilizationRate(m_tasks[i]);
+    //     }
+    //     return totalUtilizationRate;
+    // };
+
     void setNumProcessors(int numProcessors)
     {
         m_numProcessors = numProcessors;
     };
-    
+
     void setNumTasks(int numTasks)
     {
         m_numTasks = numTasks;
     };
-    
-    void removeTask(int index)
+
+    void removeTask()
     {
-        m_tasks.erase(m_tasks.begin() + index);
+        std::multiset<Task, Task::CompareTasks>::iterator it = m_tasks.begin();
+        m_tasks.erase(it);
     };
-    
-    void printTasks()
-    {
-        std::cout << "Tasks: " << m_numTasks << std::endl;
-        std::cout << "Processors: " << m_numProcessors << std::endl;
-        for (int i = 0; i < m_numTasks; i++)
-        {
-            // Print Task: i, then call m_tasks[i].printTask() all on the same line.
-            std::cout << m_tasks[i].getName() << ", ";
-            m_tasks[i].printTask();
-        }
-    };
-    
-    int EUSI(){
-        int EUSI = 0;
-        for (int i = 0; i < m_tasks.size(); i++)
-        {
-            EUSI += m_tasks[i].getComputationTime() / m_tasks[i].getPeriod();
-        }
-        return EUSI;
-    };
-    
-    int USI(){
-        int USI = 0;
-        for (int i = 0; i < m_tasks.size(); i++)
-        {
-            USI += m_tasks[i].getComputationTime();
-        }
-        return USI;
-    };
-    
-    bool checkProcessors(){
-        for (int i = 0; i < m_tasks.size(); i++)
-        {
-            if (m_tasks[i].getComputationTime() > m_numProcessors)
-            {
-                return false;
-            }
-        }
-        return true;
-    };
-    
-    unsigned long long getLCM(){
-        unsigned long long lcm = 1;
-        for (int i = 0; i < m_tasks.size(); i++)
-        {
-            lcm = lcm * m_tasks[i].getPeriod() / std::__gcd(lcm, (unsigned long long)m_tasks[i].getPeriod());
-        }
-        return lcm;
-    };
-}
+
+    // int EUSI(){
+    //     int EUSI = 0;
+    //     for (int i = 0; i < m_tasks.size(); i++)
+    //     {
+    //         EUSI += m_tasks[i].getComputationTime() / m_tasks[i].getPeriod();
+    //     }
+    //     return EUSI;
+    // };
+
+    // int USI(){
+    //     int USI = 0;
+    //     for (int i = 0; i < m_tasks.size(); i++)
+    //     {
+    //         USI += m_tasks[i].getComputationTime();
+    //     }
+    //     return USI;
+    // };
+
+    // bool checkProcessors(){
+    //     for (int i = 0; i < m_tasks.size(); i++)
+    //     {
+    //         if (m_tasks[i].getComputationTime() > m_numProcessors)
+    //         {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // };
+};
 #endif
