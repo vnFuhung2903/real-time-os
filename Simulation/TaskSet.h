@@ -31,7 +31,6 @@ public:
     Task getLowestPriorityTask();
 
     void printTaskSet();
-
     void addTask(Task task);
     int getNumTasks();
     int getNumProcessors();

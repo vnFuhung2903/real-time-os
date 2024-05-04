@@ -70,11 +70,11 @@ void TaskSet::removeTask()
     m_tasks.erase(it);
 }
 
-void TaskSet::printTaskSet()
-{
+void TaskSet:: printTaskSet(){
+    // print the priority level of each task in the task set
     for (const auto &task : m_tasks)
     {
-        task.printTask();
+        std::cout << task.getPriorityLevel() << std::endl;
     }
 }
 

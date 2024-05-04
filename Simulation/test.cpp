@@ -12,7 +12,7 @@ using namespace std;
 int main()
 {
     // test the TaskSet class
-    //  TaskSet taskSet;
+     TaskSet taskSet;
 
     // Add tasks to the multiset
     Task task1("Task1", 0, 5, 10, 20);
@@ -20,10 +20,10 @@ int main()
     Task task3("Task3", 0, 7, 12, 25);
     Task task4("Task4", 0, 2, 8, 10);
 
-    // taskSet.addTask(task1);
-    // taskSet.addTask(task2);
-    // taskSet.addTask(task3);
-    // taskSet.addTask(task4);
+    taskSet.addTask(task1);
+    taskSet.addTask(task2);
+    taskSet.addTask(task3);
+    taskSet.addTask(task4);
     // taskSet.removeTask();
 
     // Iterate over the multiset and print tasks
@@ -42,6 +42,11 @@ int main()
     {
         cout<< "not ok";
     }
+    cout<< endl;
+
+    taskSet.printTaskSet();
+
+
     
 
     //
