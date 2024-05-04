@@ -15,7 +15,7 @@ using std::string;
 
 int m_numTasks = 0;
 int m_numProcessors = 0;
-std:: multiset<Task> m_tasks;
+std::multiset<Task> m_tasks;
 
 TaskSet::TaskSet()
 {
@@ -70,7 +70,8 @@ void TaskSet::removeTask()
     m_tasks.erase(it);
 }
 
-void TaskSet:: printTaskSet(){
+void TaskSet::printTaskSet()
+{
     // print the priority level of each task in the task set
     for (const auto &task : m_tasks)
     {
@@ -93,24 +94,15 @@ int TaskSet::getNumProcessors()
     return m_numProcessors;
 }
 
+multiset<Task> TaskSet::getTasks()
+{
+    return m_tasks;
+}
+
 void TaskSet::setNumTasks(int numTasks)
 {
     m_numTasks = numTasks;
 }
 
-unsigned long long TaskSet::getLCMPeriod()
-{
-    
-    
-    // for (const auto &task : m_tasks)
-    // {
-    //     periods.push_back(task.getPeriod());
-    // }
-    // unsigned long long lcm = periods[0];
-    // for (int i = 1; i < periods.size(); i++)
-    // {
-    //     lcm = std::lcm(lcm, (unsigned long long)periods[i]);
-    // }
-    return 0;
-}
+
 #

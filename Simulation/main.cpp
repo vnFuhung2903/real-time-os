@@ -7,7 +7,8 @@
 
 #include "Task.h"
 #include "TaskSet.h"
-#include "EDF_Algotithm.h"
+
+#include "EdfAlgorithm.h"
 
 int main()
 {
@@ -24,13 +25,7 @@ int main()
         if (line == "Begin") {
             int numTasks;
             int numProcessors;
-            bool isPreemptive;
-
-
-
-
-            TaskSet taskSet;
-            input >> ;
+            input >> numTasks >> numProcessors;
 
             getline(input, line); // Bỏ qua dòng chứa count
 
@@ -65,7 +60,8 @@ int main()
     for (int i = 0; i < taskSetList.size(); i++)
     {
         clock_t start = clock();
-        runEDF(taskSetList[i]);
+        int theNumberOfTasksAcrossTheDeadline ;
+        theNumberOfTasksAcrossTheDeadline = runEDF(taskSetList[i]);
         clock_t end = clock();
         double elapsed_ticks = difftime(end, start);
         double milliseconds = elapsed_ticks * (1000.0 / CLOCKS_PER_SEC);

@@ -25,9 +25,10 @@ public:
 
     Task &operator=(const Task &task);
 
-    int getPriorityLevel() const {
+    int getPriorityLevel() const
+    {
         return m_priorityLevel;
-    } ;
+    };
 
     void setPriorityLevel(int priorityLevel);
 
@@ -61,15 +62,7 @@ public:
 
     int getCurrPeriod();
 
-
-    // struct CompareTasks
-    // {
-    //     bool operator()(const Task &task1, const Task &task2){
-    //         return task1.getPriorityLevel() < task2.getPriorityLevel();
-    //     }  ;
-    // };
-    bool operator<(const Task& other) const;
-    // bool operator<(const Task &task1, const Task &task2)  ;
+    bool operator<(const Task &other) const;
 };
 
 #endif

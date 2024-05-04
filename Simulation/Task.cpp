@@ -41,6 +41,8 @@ Task &Task::operator=(const Task &task)
 //     return m_priorityLevel;
 // }
 
+
+
 void Task::setPriorityLevel(int priorityLevel)
 {
     m_priorityLevel = priorityLevel;
@@ -50,6 +52,11 @@ int Task::getStartTime()
 {
     return m_startTime;
 }
+
+// int Task::getStartTime()
+// {
+//     return m_startTime;
+// }
 
 void Task::setStartTime(int startTime)
 {
@@ -123,10 +130,5 @@ int Task::getCurrPeriod()
 bool Task::operator<(const Task& other) const {
     return this->getPriorityLevel() < other.getPriorityLevel();
 }
-// bool Task::CompareTasks::operator()(const Task &task1, const Task &task2) const
-// {
-//     return task1.getPriorityLevel() < task2.getPriorityLevel();
-// }
-// bool Task:: CompareTasks::operator()(const Task &task1, const Task &task2) const  {
-//     return task1.getPriorityLevel() < task2.getPriorityLevel();
-// }
+
+

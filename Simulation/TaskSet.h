@@ -34,12 +34,11 @@ public:
     void addTask(Task task);
     int getNumTasks();
     int getNumProcessors();
+    multiset<Task> getTasks();
 
     void setNumProcessors(int numProcessors);
     void setNumTasks(int numTasks);
     void removeTask();// remove the highest priorityLevel task
-
-    unsigned long long getLCMPeriod();
 
 };
 #endif

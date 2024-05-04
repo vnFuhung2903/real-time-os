@@ -5,6 +5,7 @@
 
 #include "Task.h"
 #include "TaskSet.h"
+#include "EdfAlgorithm.h"
 
 using namespace std;
 
@@ -45,6 +46,10 @@ int main()
     cout<< endl;
 
     taskSet.printTaskSet();
+    taskSet.removeTask();
+    taskSet.printTaskSet();
+    
+    cout<< "lcm: " << getLCMPeriod(taskSet) << endl;
 
 
     
