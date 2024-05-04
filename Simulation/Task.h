@@ -61,17 +61,14 @@ public:
 
     int getCurrPeriod();
 
+
     // struct CompareTasks
     // {
-    //     bool operator()(const Task &task1, const Task &task2) const;
+    //     bool operator()(const Task &task1, const Task &task2){
+    //         return task1.getPriorityLevel() < task2.getPriorityLevel();
+    //     }  ;
     // };
-    struct CompareTasks
-    {
-        bool operator()(const Task &task1, const Task &task2){
-            return task1.getPriorityLevel() < task2.getPriorityLevel();
-        }  ;
-    };
-
+    bool operator<(const Task& other) const;
     // bool operator<(const Task &task1, const Task &task2)  ;
 };
 

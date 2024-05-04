@@ -8,3 +8,5 @@
 
 
 void runEDF(TaskSet TaskSet);
+
+int changePriorityLevel(TaskSet TaskSet);

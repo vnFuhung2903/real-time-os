@@ -22,3 +22,10 @@ void EDF_Algorithm::runEDF(TaskSet taskSet)
 
     printf("finish the assignment");    
 }
+
+int EDF_Algorithm::changePriorityLevel(TaskSet taskSet)
+{
+    // change the priority level of the task set
+    
+    return 0;
+}

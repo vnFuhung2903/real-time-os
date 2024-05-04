@@ -88,7 +88,7 @@ void Task::setPeriod(int period)
 
 void Task::printTask()
 {
-    cout << "Start Time: " << m_startTime << ", Computation Time: " << m_computationTime << ", Hard Deadline: " << m_hardDeadline << ", Period: " << m_period << endl;
+    cout<<"PriorityLevel: "<< m_priorityLevel << ", Start Time: " << m_startTime << ", Computation Time: " << m_computationTime << ", Hard Deadline: " << m_hardDeadline << ", Period: " << m_period << endl;
 }
 
 void Task::setName(string name)
@@ -119,6 +119,9 @@ void Task::incrementCurrPeriod()
 int Task::getCurrPeriod()
 {
     return m_currPeriod;
+}
+bool Task::operator<(const Task& other) const {
+    return this->getPriorityLevel() < other.getPriorityLevel();
 }
 // bool Task::CompareTasks::operator()(const Task &task1, const Task &task2) const
 // {

@@ -2,14 +2,17 @@
 #include <fstream>
 #include <set>
 #include <string>
+
 #include "Task.h"
 #include "TaskSet.h"
+
+using namespace std;
 
 
 int main()
 {
-    //test the TaskSet class
-    TaskSet taskSet;
+    // test the TaskSet class
+    //  TaskSet taskSet;
 
     // Add tasks to the multiset
     Task task1("Task1", 0, 5, 10, 20);
@@ -17,14 +20,29 @@ int main()
     Task task3("Task3", 0, 7, 12, 25);
     Task task4("Task4", 0, 2, 8, 10);
 
-    taskSet.addTask(task1);
-    taskSet.addTask(task2);
-    taskSet.addTask(task3);
-    taskSet.addTask(task4);
+    // taskSet.addTask(task1);
+    // taskSet.addTask(task2);
+    // taskSet.addTask(task3);
+    // taskSet.addTask(task4);
     // taskSet.removeTask();
 
     // Iterate over the multiset and print tasks
-    taskSet.printTaskSet();
+    // taskSet.printTaskSet();
+    cout << task1.getPriorityLevel() << endl;
+    cout << task2.getPriorityLevel() << endl;
+    cout << task3.getPriorityLevel() << endl;
+    cout << task4.getPriorityLevel() << endl;
+    // task1.printTask();
+    // taskSet.printTaskSet();
+    if (task1<task2)
+    {
+        cout<< "ok";
+    }
+    else
+    {
+        cout<< "not ok";
+    }
+    
 
     //
     return 0;

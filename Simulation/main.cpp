@@ -14,6 +14,44 @@ int main()
     // import data
     vector<TaskSet> taskSetList;
     fstream input("BasicInput.txt");
+    if (!input.is_open()) {
+        cout << "fail!" << endl;
+        return 0;
+    }
+
+    string line;
+    while (getline(input, line)) {
+        if (line == "Begin") {
+            int numTasks;
+            int numProcessors;
+            bool isPreemptive;
+
+
+
+
+            TaskSet taskSet;
+            input >> ;
+
+            getline(input, line); // Bỏ qua dòng chứa count
+
+            for (int i = 0; i < count; i++) {
+                getline(input, line); // Bỏ qua dòng chứa kích thước tập công việc
+                int taskSetSize;
+                input >> taskSetSize;
+                getline(input, line); // Bỏ qua dòng trống sau kích thước
+
+                TaskSet taskSet;
+                for (int j = 0; j < taskSetSize; j++) {
+                    Task task;
+                    char comma;
+                    input >> comma >> task.field1 >> comma >> task.field2 >> comma >> task.field3 >> comma >> task.field4 >> comma >> task.field5;
+                    taskSet.push_back(task);
+                }
+                taskSetList.push_back(taskSet);
+                getline(input, line); // Bỏ qua dòng "Begin" hoặc "End"
+            }
+        }
+    }
 
     input.close();
 
@@ -33,7 +71,10 @@ int main()
         double milliseconds = elapsed_ticks * (1000.0 / CLOCKS_PER_SEC);
         output << milliseconds << ",";
     }
+    output << endl;
 
-    output.close();
+    
+
+    // output.close();
     return 0;
 }
