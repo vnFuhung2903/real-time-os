@@ -7,7 +7,6 @@
 
 #include "Task.h"
 #include "TaskSet.h"
-
 #include "EdfAlgorithm.h"
 
 int main()

@@ -6,14 +6,14 @@
 #include <string>
 #include <set>
 
-#include "Task.h"
-#include "TaskSet.h"
+#include "Ntask.h"
+#include "NtaskSet.h"
 
 int runEDF(TaskSet taskSet);
 
 int runEDFplus(TaskSet taskSet);
 
-unsigned long long gcd( unsigned long long a, unsigned long long b);
+unsigned long long gcd(unsigned long long a, unsigned long long b);
 
 unsigned long long getLCMPeriod(TaskSet taskSet);
 

@@ -1,11 +1,16 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <set>
+#include <vector>
+#include <math.h>
+#include <algorithm>
+#include <numeric>
 
-#include "Task.h"
-#include "TaskSet.h"
+#include "Ntask.h"
+#include "NtaskSet.h"
 #include "EdfAlgorithm.h"
+
+using namespace std;
 
 /**
  * Runs the Earliest Deadline First (EDF) algorithm on the given task set.
@@ -27,25 +32,25 @@ int runEDF(TaskSet taskSet)
  *
  * @param taskSet The task set to be scheduled.
  * có nhưng tiến trình có cùng priorityLevel áp dụng giải thuật backtracking
- * xác định thời gian chạy ngắn nhất và dài nhất và số tiến trình gặp deadline trong mỗi trường hợp
+ * xác định thời gian chạy ngắn nhất và dài nhất và số tiến trình lỡ deadline tương ứng
  * vẽ được đồ thị tương quan
- * @return An integer representing the status of the algorithm execution.
+ * @return the number of tasks across the deadline.
  */
 int runEDFplus(TaskSet taskSet)
 {
+    
     return 0;
 }
 
-
 unsigned long long getLCMPeriod(TaskSet taskSet)
 {
-
-    // find the least common multiple of the periods of the tasks
+    // find least common multiple of the periods of the tasks
     unsigned long long lcm = 1;
-    for (auto &taskE : taskSet.getTasks())
+    auto tasks = taskSet.getTasks();
+
+    for (const auto &task : tasks)
     {
-        unsigned long long period = (unsigned long long) taskE.getPeriod();
-        lcm = (period * lcm) / gcd(period, lcm);
+        lcm = (task.getPeriod() * lcm) / gcd(task., lcm);
     }
 
     return 0;

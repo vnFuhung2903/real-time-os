@@ -94,7 +94,7 @@ int TaskSet::getNumProcessors()
     return m_numProcessors;
 }
 
-multiset<Task> TaskSet::getTasks()
+std::multiset<Task> TaskSet::getTasks()
 {
     return m_tasks;
 }
