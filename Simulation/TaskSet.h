@@ -1,5 +1,5 @@
-#ifndef TASKSEt_H
-#define TASKSEt_H
+#ifndef TASKSET_H
+#define TASKSET_H
 
 #include <iostream>
 #include <fstream>
@@ -7,6 +7,7 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+
 #include "Task.h"
 
 using std::set;
@@ -17,28 +18,95 @@ class TaskSet
 private:
     int m_numTasks;
     int m_numProcessors;
-    multiset<Task> m_tasks;
+    std::multiset<Task> m_tasks;
 
 public:
-    TaskSet();
-    ~TaskSet();
+    TaskSet()
+    {
+        m_numTasks = 0;
+        m_numProcessors = 0;
+        m_tasks.clear();
+    }
 
-    TaskSet(int numTasks, int numProcessors);
+    ~TaskSet()
+    {
+        m_numTasks = 0;
+        m_numProcessors = 0;
+        m_tasks.clear();
+    }
 
-    TaskSet &operator=(const TaskSet &taskSet);
+    TaskSet(int numTasks, int numProcessors)
+    {
+        m_numTasks = numTasks;
+        m_numProcessors = numProcessors;
+    }
 
-    Task getHighestPriorityTask();
-    Task getLowestPriorityTask();
+    TaskSet &operator=(const TaskSet &taskSet)
+    {
+        if (this == &taskSet)
+        {
+            return *this;
+        }
+        m_numTasks = taskSet.m_numTasks;
+        m_numProcessors = taskSet.m_numProcessors;
+        m_tasks = taskSet.m_tasks;
+        return *this;
+    }
 
-    void printTaskSet();
-    void addTask(Task task);
-    int getNumTasks();
-    int getNumProcessors();
-    multiset<Task> getTasks();
+    Task getHighestPriorityTask()
+    {
+        return *m_tasks.begin();
+    }
 
-    void setNumProcessors(int numProcessors);
-    void setNumTasks(int numTasks);
-    void removeTask();// remove the highest priorityLevel task
+    Task getLowestPriorityTask()
+    {
+        return *m_tasks.rbegin();
+    }
 
+    void addTask(Task task)
+    {
+        m_tasks.insert(task);
+    }
+
+    void removeTask()
+    {
+        std::multiset<Task>::iterator it = m_tasks.begin();
+        m_tasks.erase(it);
+    }
+
+    void printTaskSet()
+    {
+        // print the priority level of each task in the task set
+        for (const auto &task : m_tasks)
+        {
+            std::cout << task.getPriorityLevel() << std::endl;
+        }
+    }
+
+    int getNumTasks()
+    {
+        return m_numTasks;
+    }
+
+    void setNumProcessors(int numProcessors)
+    {
+        m_numProcessors = numProcessors;
+    }
+
+    int getNumProcessors()
+    {
+        return m_numProcessors;
+    }
+
+    std::multiset<Task> getTasks()
+    {
+        return m_tasks;
+    }
+
+    void setNumTasks(int numTasks)
+    {
+        m_numTasks = numTasks;
+    }
 };
+
 #endif

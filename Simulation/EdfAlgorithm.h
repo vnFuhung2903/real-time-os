@@ -6,8 +6,8 @@
 #include <string>
 #include <set>
 
-#include "Ntask.h"
-#include "NtaskSet.h"
+#include "Task.h"
+#include "TaskSet.h"
 
 int runEDF(TaskSet taskSet);
 

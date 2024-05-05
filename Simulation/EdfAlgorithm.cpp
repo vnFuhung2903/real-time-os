@@ -6,8 +6,8 @@
 #include <algorithm>
 #include <numeric>
 
-#include "Ntask.h"
-#include "NtaskSet.h"
+#include "Task.h"
+#include "TaskSet.h"
 #include "EdfAlgorithm.h"
 
 using namespace std;
@@ -76,7 +76,7 @@ unsigned long long getLCMPeriod(TaskSet taskSet)
 
     for (auto &task : tasks)
     {
-        lcm = (task.getPeriod() * lcm) / gcd((unsigned long long)task., lcm);
+        lcm = (task.getPeriod() * lcm) / gcd((unsigned long long) task., lcm);
     }
 
     return 0;

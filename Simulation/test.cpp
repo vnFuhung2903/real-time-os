@@ -5,10 +5,8 @@
 #include <set>
 #include <string>
 
-// #include "Task.h"
-#include "Ntask.h"
-#include "NtaskSet.h"
-// #include "TaskSet.h"
+#include "Task.h"
+#include "TaskSet.h"
 // #include "EdfAlgorithm.h"
 
 using namespace std;
@@ -32,14 +30,14 @@ int main()
     taskSet.addTask(task4);
     taskSet.addTask(task5);
 
-    cout << "period: " << task1.getPriorityLevel() << endl;
+    // cout << "period: " << task1.getPriorityLevel() << endl;
 
-    // test all methods of TaskSet
-    taskSet.printTaskSet();
-    taskSet.removeTask();
-    taskSet.printTaskSet();
-    taskSet.removeTask();
-    cout << "max: " << taskSet.getHighestPriorityTask().getPriorityLevel() << endl;
+    // // test all methods of TaskSet
+    // taskSet.printTaskSet();
+    // taskSet.removeTask();
+    // taskSet.printTaskSet();
+    // taskSet.removeTask();
+    // cout << "max: " << taskSet.getHighestPriorityTask().getPriorityLevel() << endl;
 
     cout << "data:" << endl;
 
