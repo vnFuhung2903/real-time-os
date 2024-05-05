@@ -36,9 +36,35 @@ int runEDF(TaskSet taskSet)
  * vẽ được đồ thị tương quan
  * @return the number of tasks across the deadline.
  */
-int runEDFplus(TaskSet taskSet)
+int runEDFminTime(TaskSet taskSet)
 {
-    
+    /*
+    chạy EDF với giải thuật backtracking trường hợp chạy ít thời gian nhất
+    */
+    return 0;
+}
+
+int runEDFmaxTime(TaskSet taskSet)
+{
+    /*
+    chạy EDF với giải thuật backtracking trường hợp chạy nhiều thời gian nhất
+    */
+    return 0;
+}
+
+int runEDFminOverdueProcesses(TaskSet taskSet)
+{
+    /*
+    chạy EDF với giải thuật backtracking trường hợp chạy ít tiến trình quá deadline nhất
+    */
+    return 0;
+}
+
+int runEDFmaxOverdueProcesses(TaskSet taskSet)
+{
+    /*
+    chạy EDF với giải thuật backtracking trường hợp chạy nhiều tiến trình quá deadline nhất
+    */
     return 0;
 }
 
@@ -48,9 +74,9 @@ unsigned long long getLCMPeriod(TaskSet taskSet)
     unsigned long long lcm = 1;
     auto tasks = taskSet.getTasks();
 
-    for (const auto &task : tasks)
+    for (auto &task : tasks)
     {
-        lcm = (task.getPeriod() * lcm) / gcd(task., lcm);
+        lcm = (task.getPeriod() * lcm) / gcd((unsigned long long)task., lcm);
     }
 
     return 0;

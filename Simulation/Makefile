@@ -1,12 +1,9 @@
 all:
-	g++ -o runedf main.cpp Task.cpp TaskSet.cpp EdfAlgorithm.cpp 
-
-testtaskset:
-	g++ -o testtaskset test.cpp Task.cpp  TaskSet.cpp
-
-testtask:
-	g++ -o testtask test.cpp Task.cpp  
+	g++ -o all main.cpp EdfAlgorithm.cpp 
 
 testedf:
 	g++ -o testedf test.cpp Task.cpp EdfAlgorithm.cpp TaskSet.cpp
+
+testNEDF:
+	g++ -o testNEDF test.cpp EdfAlgorithm.cpp
 

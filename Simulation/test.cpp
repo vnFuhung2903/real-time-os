@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <vector>
 #include <set>
 #include <string>
 
@@ -30,12 +32,60 @@ int main()
     taskSet.addTask(task4);
     taskSet.addTask(task5);
 
+    cout << "period: " << task1.getPriorityLevel() << endl;
+
     // test all methods of TaskSet
     taskSet.printTaskSet();
     taskSet.removeTask();
     taskSet.printTaskSet();
     taskSet.removeTask();
-    cout<<"max: "<< taskSet.getHighestPriorityTask().getPriorityLevel()<<endl;
-    
+    cout << "max: " << taskSet.getHighestPriorityTask().getPriorityLevel() << endl;
+
+    cout << "data:" << endl;
+
+    vector<TaskSet> taskSetList;
+    // fstream input("BasicInput.txt");
+    std::ifstream file("BasicInput.txt"); // Mở file
+
+    std::string line;
+
+    if (file.is_open())
+    {
+        while (std::getline(file, line))
+        { // Đọc từng dòng của file
+            std::stringstream ss(line);
+            std::string token;
+
+            while (std::getline(ss, token, ','))
+            { // Tách dữ liệu bằng dấu phẩy
+                if (token == "Begin" || token == "N")
+                {
+                    std::cout << "Value: " << token << ", Type: " << typeid(token).name() << std::endl;
+                }
+                else
+                {
+                    try
+                    {
+                        int ok = 1;
+                        int intValue = std::stoi(token); // Chuyển đổi thành số nguyên
+                        std::cout << "Value: " << intValue + ok << ", Type: " << typeid(intValue).name() << std::endl;
+                    }
+                    catch (...)
+                    {
+                        std::cerr << "Error converting string to integer!" << std::endl;
+                    }
+                }
+            }
+            std::cout << " new" << endl;
+        }
+        file.close(); // Đóng file
+    }
+    else
+    {
+        std::cerr << "Unable to open file!" << std::endl;
+    }
+
+    // input.close();
+
     return 0;
 }

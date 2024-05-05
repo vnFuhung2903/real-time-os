@@ -11,7 +11,10 @@
 
 int runEDF(TaskSet taskSet);
 
-int runEDFplus(TaskSet taskSet);
+int runEDFminTime(TaskSet taskSet);
+int runEDFmaxTime(TaskSet taskSet);
+int runEDFminOverdueProcesses(TaskSet taskSet);
+int runEDFmaxOverdueProcesses(TaskSet taskSet);
 
 unsigned long long gcd(unsigned long long a, unsigned long long b);
 

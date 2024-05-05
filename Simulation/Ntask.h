@@ -89,7 +89,7 @@ public:
         m_hardDeadline = hardDeadline;
     }
 
-    int getPeriod()
+    int getPeriod() const
     {
         return m_period;
     }
