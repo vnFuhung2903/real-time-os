@@ -68,26 +68,3 @@ int runEDFmaxOverdueProcesses(TaskSet taskSet)
     return 0;
 }
 
-unsigned long long getLCMPeriod(TaskSet taskSet)
-{
-    // find least common multiple of the periods of the tasks
-    unsigned long long lcm = 1;
-    auto tasks = taskSet.getTasks();
-
-    for (auto &task : tasks)
-    {
-        lcm = (task.getPeriod() * lcm) / gcd((unsigned long long) task., lcm);
-    }
-
-    return 0;
-}
-
-unsigned long long gcd(unsigned long long a, unsigned long long b)
-{
-    // find the greatest common divisor
-    if (b == 0)
-    {
-        return a;
-    }
-    return gcd(b, a % b);
-}

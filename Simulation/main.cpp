@@ -15,8 +15,10 @@ int main()
 {
     // import data
     vector<TaskSet> taskSetList;
-    std::ifstream file("RTaskSets.txt"); // Open file
+//    std::ifstream file("RTaskSets.txt"); // Open file
+    std::ifstream file("TestTaskSet.txt"); // Open file
     std::string line;
+
 
     if (file.is_open())
     {
@@ -47,11 +49,11 @@ int main()
             for (int i = 0; i < numTasks; i++)
             {
                 std::getline(file, line);
-                std:: string startTime;
-                std:: string computationTime;
-                std:: string softDeadline;
-                std:: string hardDeadline;
-                std:: string period;
+                std::string startTime;
+                std::string computationTime;
+                std::string softDeadline;
+                std::string hardDeadline;
+                std::string period;
                 std::stringstream ss5(line);
                 std::getline(ss5, startTime, ',');
                 std::getline(ss5, computationTime, ',');
@@ -71,34 +73,38 @@ int main()
             cout << "NumTasks: " << taskSet.getNumTasks() << endl;
             cout << "NumProcessors: " << taskSet.getNumProcessors() << endl;
             cout << "CheckNumTasks: " << taskSet.getTasks().size() << endl;
-            
         }
-
-        
     }
     else
     {
         std::cerr << "Unable to open file!" << std::endl;
     }
+
+    cout << "TaskSetList size: " << taskSetList.size() << endl;
+    
+
+    cout<< "lcm: " << taskSetList[0].getLCMPeriod() << endl;
+    cout<< "lcm: " << taskSetList[1].getLCMPeriod() << endl;
+
     /*
      ghi thời gian chạy của mỗi taskset vào file csv
      dùng csv vẽ đồ thị miêu tả sự khác nhau khi sử dụng kỹ thuật phân loại yêu cầu  avf khi không sử dụng
     */
 
-    // fstream output;
-    // output.open("Result.csv", ios ::out);
-    // for (int i = 0; i < taskSetList.size(); i++)
-    // {
-    //     clock_t start = clock();
-    //     int theNumberOfTasksAcrossTheDeadline;
-    //     theNumberOfTasksAcrossTheDeadline = runEDF(taskSetList[i]);
-    //     clock_t end = clock();
-    //     double elapsed_ticks = difftime(end, start);
-    //     double milliseconds = elapsed_ticks * (1000.0 / CLOCKS_PER_SEC);
-    //     output << milliseconds << ",";
-    // }
-    // output << endl;
+//     std::ofstream output; // Use ofstream for output operations
+//     output.open("Result.csv", ios ::out);
+//     for (int i = 0; i < taskSetList.size(); i++)
+//     {
+//         clock_t start = clock();
+// //        int theNumberOfTasksAcrossTheDeadline;
+// //        theNumberOfTasksAcrossTheDeadline = runEDF(taskSetList[i]);
+//         clock_t end = clock();
+//         double elapsed_ticks = difftime(end, start);
+//         double milliseconds = elapsed_ticks * (1000.0 / CLOCKS_PER_SEC);
+//         output << milliseconds << ",";
+//     }
+//     output << endl;
 
-    // output.close();
+//     output.close();
     return 0;
 }

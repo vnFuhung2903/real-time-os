@@ -5,6 +5,8 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <math.h>
+#include <numeric>
 #include <set>
 #include <algorithm>
 
@@ -107,6 +109,30 @@ public:
     {
         m_numTasks = numTasks;
     }
+
+    unsigned long long gcd(unsigned long long a, unsigned long long b)
+    {
+        // find the greatest common divisor
+        if (b == 0)
+        {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
+
+    unsigned long long getLCMPeriod()
+    {
+        // find least common multiple of the periods of the tasks
+        unsigned long long lcm = 1;
+        for (auto &task : m_tasks)
+        {
+            lcm = ((unsigned long long)task.getPeriod() * lcm) / gcd((unsigned long long)task.getPeriod(), lcm);
+        }
+
+        return lcm;
+    }
+
+    
 };
 
 #endif
