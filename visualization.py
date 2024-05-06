@@ -9,12 +9,12 @@ subprocess.call(["./main"])
 
 # read a csv file
 data = pd.read_csv("Result.csv")
+
 # print(data.head())
 # print(data['TaskSet']);
 # print(data.columns)
 
 # plot the data
-
 plt.subplot(2, 1, 1)
 plt.figure(figsize=(10, 6))
 plt.plot(data['TaskSet'], data['TrEDF'], marker='o')
