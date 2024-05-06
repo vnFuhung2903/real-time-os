@@ -15,10 +15,9 @@ int main()
 {
     // import data
     vector<TaskSet> taskSetList;
-//    std::ifstream file("RTaskSets.txt"); // Open file
+    //    std::ifstream file("RTaskSets.txt"); // Open file
     std::ifstream file("TestTaskSet.txt"); // Open file
     std::string line;
-
 
     if (file.is_open())
     {
@@ -81,30 +80,79 @@ int main()
     }
 
     cout << "TaskSetList size: " << taskSetList.size() << endl;
-    
 
-    cout<< "lcm: " << taskSetList[0].getLCMPeriod() << endl;
-    cout<< "lcm: " << taskSetList[1].getLCMPeriod() << endl;
+    cout << "lcm: " << taskSetList[0].getLCMPeriod() << endl;
+    cout << "lcm: " << taskSetList[1].getLCMPeriod() << endl;
 
     /*
      ghi thời gian chạy của mỗi taskset vào file csv
      dùng csv vẽ đồ thị miêu tả sự khác nhau khi sử dụng kỹ thuật phân loại yêu cầu  avf khi không sử dụng
     */
 
-//     std::ofstream output; // Use ofstream for output operations
-//     output.open("Result.csv", ios ::out);
-//     for (int i = 0; i < taskSetList.size(); i++)
-//     {
-//         clock_t start = clock();
-// //        int theNumberOfTasksAcrossTheDeadline;
-// //        theNumberOfTasksAcrossTheDeadline = runEDF(taskSetList[i]);
-//         clock_t end = clock();
-//         double elapsed_ticks = difftime(end, start);
-//         double milliseconds = elapsed_ticks * (1000.0 / CLOCKS_PER_SEC);
-//         output << milliseconds << ",";
-//     }
-//     output << endl;
+    // run EDF and define output file
+    std::ofstream output; // Use ofstream for output operations
+    output.open("Result.csv", ios ::out);
+    /*
+    Task sets TaskSet
+    TrEDF time runEDf
+    NtEDF the number of tasks across the deadline in EDf
+    TrEDFminT time runEDFminTime
+    NtEDFminT the number of tasks across the deadline in runEDFminTime
+    TrEDFmaxT time runEDFmaxTime
+    NtEDFmaxT the number of tasks across the deadline in runEDFmaxTime
+    TrEDFminOP time runEDFminOverdueProcesses
+    NtEDFminOP the number of tasks across the deadline in runEDFminOverdueProcesses
+    TrEDFmaxOP time runEDFmaxOverdueProcesses
+    NtEDFmaxOP the number of tasks across the deadline in runEDFmaxOverdueProcesses
+    */
+    output << "TaskSet,TrEDF,NtEDF,TrEDFminT,NtEDFminT,TrEDFmaxT,NtEDFmaxT,TrEDFminOP,NtEDFminOP,TrEDFmaxOP,NtEDFmaxOP" << endl;
+    // for (int i = 0; i < taskSetList.size(); i++)
+    // {
+    //     output << "TaskSet" << i << ",";
 
-//     output.close();
+    //     clock_t startEDf = clock();
+    //     int NtEDF = runEDF(taskSetList[i]);
+    //     clock_t endEDF = clock();
+
+    //     clock_t startEDFminT = clock();
+    //     int NtEDFminT = runEDFminTime(taskSetList[i]);
+    //     clock_t endEDFminT = clock();
+
+    //     clock_t startEDFmaxT = clock();
+    //     int NtEDFmaxT = runEDFmaxTime(taskSetList[i]);
+    //     clock_t endEDFmaxT = clock();
+
+    //     clock_t startEDFminOP = clock();
+    //     int NtEDFminOP = runEDFminOverdueProcesses(taskSetList[i]);
+    //     clock_t endEDFminOP = clock();
+
+    //     clock_t startEDFmaxOP = clock();
+    //     int NtEDFmaxOP = runEDFmaxOverdueProcesses(taskSetList[i]);
+    //     clock_t endEDFmaxOP = clock();
+
+    //     // change time to milliseconds
+    //     double elapsed_ticks_EDf = difftime(endEDF, startEDf);
+    //     double milliseconds_EDf = elapsed_ticks_EDf * (1000.0 / CLOCKS_PER_SEC);
+
+    //     double elapsed_ticks_EDFminT = difftime(endEDFminT, startEDFminT);
+    //     double milliseconds_EDFminT = elapsed_ticks_EDFminT * (1000.0 / CLOCKS_PER_SEC);
+
+    //     double elapsed_ticks_EDFmaxT = difftime(endEDFmaxT, startEDFmaxT);
+    //     double milliseconds_EDFmaxT = elapsed_ticks_EDFmaxT * (1000.0 / CLOCKS_PER_SEC);
+
+    //     double elapsed_ticks_EDFminOP = difftime(endEDFminOP, startEDFminOP);
+    //     double milliseconds_EDFminOP = elapsed_ticks_EDFminOP * (1000.0 / CLOCKS_PER_SEC);
+
+    //     double elapsed_ticks_EDFmaxOP = difftime(endEDFmaxOP, startEDFmaxOP);
+    //     double milliseconds_EDFmaxOP = elapsed_ticks_EDFmaxOP * (1000.0 / CLOCKS_PER_SEC);
+
+    //     output << milliseconds_EDf << "," << NtEDF << ","
+    //            << milliseconds_EDFminT << "," << NtEDFminT << ","
+    //            << milliseconds_EDFmaxT << "," << NtEDFmaxT << ","
+    //            << milliseconds_EDFminOP << "," << NtEDFminOP << ","
+    //            << milliseconds_EDFmaxOP << "," << NtEDFmaxOP << endl;
+    // }
+
+    output.close();
     return 0;
 }

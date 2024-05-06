@@ -12,6 +12,8 @@
 
 using namespace std;
 
+// To check functions, all functions will return 0 after testing.
+
 /**
  * Runs the Earliest Deadline First (EDF) algorithm on the given task set.
  *
