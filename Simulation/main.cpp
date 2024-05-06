@@ -1,22 +1,21 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
 #include <set>
 #include <string>
 #include <vector>
 #include <time.h>
+#include <ctime>
 
 #include "Task.h"
 #include "TaskSet.h"
 #include "EdfAlgorithm.h"
-
 int main()
 {
     // import data
     vector<TaskSet> taskSetList;
-    //    std::ifstream file("RTaskSets.txt"); // Open file
-    std::ifstream file("TestTaskSet.txt"); // Open file
+    std::ifstream file("RTaskSets.txt"); // Open file
+    // std::ifstream file("TestTaskSet.txt"); // Open file
     std::string line;
 
     if (file.is_open())
@@ -106,52 +105,52 @@ int main()
     NtEDFmaxOP the number of tasks across the deadline in runEDFmaxOverdueProcesses
     */
     output << "TaskSet,TrEDF,NtEDF,TrEDFminT,NtEDFminT,TrEDFmaxT,NtEDFmaxT,TrEDFminOP,NtEDFminOP,TrEDFmaxOP,NtEDFmaxOP" << endl;
-    // for (int i = 0; i < taskSetList.size(); i++)
-    // {
-    //     output << "TaskSet" << i << ",";
+    for (int i = 0; i < taskSetList.size(); i++)
+    {
+        output << "TaskSet" << i << ",";
 
-    //     clock_t startEDf = clock();
-    //     int NtEDF = runEDF(taskSetList[i]);
-    //     clock_t endEDF = clock();
+        clock_t startEDf = clock();
+        int NtEDF = runEDF(taskSetList[i]);
+        clock_t endEDF = clock();
 
-    //     clock_t startEDFminT = clock();
-    //     int NtEDFminT = runEDFminTime(taskSetList[i]);
-    //     clock_t endEDFminT = clock();
+        clock_t startEDFminT = clock();
+        int NtEDFminT = runEDFminTime(taskSetList[i]);
+        clock_t endEDFminT = clock();
 
-    //     clock_t startEDFmaxT = clock();
-    //     int NtEDFmaxT = runEDFmaxTime(taskSetList[i]);
-    //     clock_t endEDFmaxT = clock();
+        clock_t startEDFmaxT = clock();
+        int NtEDFmaxT = runEDFmaxTime(taskSetList[i]);
+        clock_t endEDFmaxT = clock();
 
-    //     clock_t startEDFminOP = clock();
-    //     int NtEDFminOP = runEDFminOverdueProcesses(taskSetList[i]);
-    //     clock_t endEDFminOP = clock();
+        clock_t startEDFminOP = clock();
+        int NtEDFminOP = runEDFminOverdueProcesses(taskSetList[i]);
+        clock_t endEDFminOP = clock();
 
-    //     clock_t startEDFmaxOP = clock();
-    //     int NtEDFmaxOP = runEDFmaxOverdueProcesses(taskSetList[i]);
-    //     clock_t endEDFmaxOP = clock();
+        clock_t startEDFmaxOP = clock();
+        int NtEDFmaxOP = runEDFmaxOverdueProcesses(taskSetList[i]);
+        clock_t endEDFmaxOP = clock();
 
-    //     // change time to milliseconds
-    //     double elapsed_ticks_EDf = difftime(endEDF, startEDf);
-    //     double milliseconds_EDf = elapsed_ticks_EDf * (1000.0 / CLOCKS_PER_SEC);
+        // change time to milliseconds
+        double elapsed_ticks_EDf = difftime(endEDF, startEDf);
+        double milliseconds_EDf = elapsed_ticks_EDf * (1000.0 / CLOCKS_PER_SEC);
 
-    //     double elapsed_ticks_EDFminT = difftime(endEDFminT, startEDFminT);
-    //     double milliseconds_EDFminT = elapsed_ticks_EDFminT * (1000.0 / CLOCKS_PER_SEC);
+        double elapsed_ticks_EDFminT = difftime(endEDFminT, startEDFminT);
+        double milliseconds_EDFminT = elapsed_ticks_EDFminT * (1000.0 / CLOCKS_PER_SEC);
 
-    //     double elapsed_ticks_EDFmaxT = difftime(endEDFmaxT, startEDFmaxT);
-    //     double milliseconds_EDFmaxT = elapsed_ticks_EDFmaxT * (1000.0 / CLOCKS_PER_SEC);
+        double elapsed_ticks_EDFmaxT = difftime(endEDFmaxT, startEDFmaxT);
+        double milliseconds_EDFmaxT = elapsed_ticks_EDFmaxT * (1000.0 / CLOCKS_PER_SEC);
 
-    //     double elapsed_ticks_EDFminOP = difftime(endEDFminOP, startEDFminOP);
-    //     double milliseconds_EDFminOP = elapsed_ticks_EDFminOP * (1000.0 / CLOCKS_PER_SEC);
+        double elapsed_ticks_EDFminOP = difftime(endEDFminOP, startEDFminOP);
+        double milliseconds_EDFminOP = elapsed_ticks_EDFminOP * (1000.0 / CLOCKS_PER_SEC);
 
-    //     double elapsed_ticks_EDFmaxOP = difftime(endEDFmaxOP, startEDFmaxOP);
-    //     double milliseconds_EDFmaxOP = elapsed_ticks_EDFmaxOP * (1000.0 / CLOCKS_PER_SEC);
+        double elapsed_ticks_EDFmaxOP = difftime(endEDFmaxOP, startEDFmaxOP);
+        double milliseconds_EDFmaxOP = elapsed_ticks_EDFmaxOP * (1000.0 / CLOCKS_PER_SEC);
 
-    //     output << milliseconds_EDf << "," << NtEDF << ","
-    //            << milliseconds_EDFminT << "," << NtEDFminT << ","
-    //            << milliseconds_EDFmaxT << "," << NtEDFmaxT << ","
-    //            << milliseconds_EDFminOP << "," << NtEDFminOP << ","
-    //            << milliseconds_EDFmaxOP << "," << NtEDFmaxOP << endl;
-    // }
+        output << milliseconds_EDf << "," << NtEDF << ","
+               << milliseconds_EDFminT << "," << NtEDFminT << ","
+               << milliseconds_EDFmaxT << "," << NtEDFmaxT << ","
+               << milliseconds_EDFminOP << "," << NtEDFminOP << ","
+               << milliseconds_EDFmaxOP << "," << NtEDFmaxOP << endl;
+    }
 
     output.close();
     return 0;

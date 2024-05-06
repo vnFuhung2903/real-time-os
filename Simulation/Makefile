@@ -1,5 +1,5 @@
-all:
-	g++ -o all main.cpp EdfAlgorithm.cpp 
+main:
+	g++ -o main main.cpp EdfAlgorithm.cpp 
 
 testedf:
 	g++ -o testedf test.cpp EdfAlgorithm.cpp 

@@ -16,8 +16,4 @@ int runEDFmaxTime(TaskSet taskSet);
 int runEDFminOverdueProcesses(TaskSet taskSet);
 int runEDFmaxOverdueProcesses(TaskSet taskSet);
 
-unsigned long long gcd(unsigned long long a, unsigned long long b);
-
-unsigned long long getLCMPeriod(TaskSet taskSet);
-
 #endif

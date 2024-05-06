@@ -4,7 +4,7 @@ import subprocess
 
 
 # compile the c++ code
-subprocess.call(["g++", "main.cpp", "-o", "main"])
+subprocess.call(["g++", "main.cpp", "EdfAlgorithm.cpp","-o", "main"])
 subprocess.call(["./main"])
 
 # read a csv file
