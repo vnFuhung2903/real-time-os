@@ -63,25 +63,11 @@ int main()
             }
             taskSetList.push_back(taskSet);
         }
-
-        for (int i = 0; i < taskSetList.size(); i++)
-        {
-            TaskSet taskSet = taskSetList[i];
-            cout << "TaskSet " << i << endl;
-            cout << "NumTasks: " << taskSet.getNumTasks() << endl;
-            cout << "NumProcessors: " << taskSet.getNumProcessors() << endl;
-            cout << "CheckNumTasks: " << taskSet.getTasks().size() << endl;
-        }
     }
     else
     {
         std::cerr << "Unable to open file!" << std::endl;
     }
-
-    cout << "TaskSetList size: " << taskSetList.size() << endl;
-
-    cout << "lcm: " << taskSetList[0].getLCMPeriod() << endl;
-    cout << "lcm: " << taskSetList[1].getLCMPeriod() << endl;
 
     /*
      ghi thời gian chạy của mỗi taskset vào file csv
