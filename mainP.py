@@ -91,6 +91,9 @@ def create_new_window3():
 
 
 root = tk.Tk()
+label = tk.Label(root, text="control panel", font=("Arial", 24), fg="blue" ,padx=10, pady=10)
+label.pack(pady=10)  # Add vertical padding
+
 button1 = tk.Button(root, text="Comparison time processes", command=create_new_window1)
 button1.pack(pady=10)  # Add vertical padding
 
