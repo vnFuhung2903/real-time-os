@@ -98,39 +98,34 @@ int main()
         clock_t startEDf = clock();
         int NtEDF = runEDF(taskSetList[i]);
         clock_t endEDF = clock();
+        double elapsed_ticks_EDf = difftime(endEDF, startEDf);
+        double milliseconds_EDf = elapsed_ticks_EDf * (1000.0 / CLOCKS_PER_SEC);
 
         clock_t startEDFminT = clock();
         int NtEDFminT = runEDFminTime(taskSetList[i]);
         clock_t endEDFminT = clock();
+        double elapsed_ticks_EDFminT = difftime(endEDFminT, startEDFminT);
+        double milliseconds_EDFminT = elapsed_ticks_EDFminT * (1000.0 / CLOCKS_PER_SEC);
 
         clock_t startEDFmaxT = clock();
         int NtEDFmaxT = runEDFmaxTime(taskSetList[i]);
         clock_t endEDFmaxT = clock();
+        double elapsed_ticks_EDFmaxT = difftime(endEDFmaxT, startEDFmaxT);
+        double milliseconds_EDFmaxT = elapsed_ticks_EDFmaxT * (1000.0 / CLOCKS_PER_SEC);
 
         clock_t startEDFminOP = clock();
         int NtEDFminOP = runEDFminOverdueProcesses(taskSetList[i]);
         clock_t endEDFminOP = clock();
+        double elapsed_ticks_EDFminOP = difftime(endEDFminOP, startEDFminOP);
+        double milliseconds_EDFminOP = elapsed_ticks_EDFminOP * (1000.0 / CLOCKS_PER_SEC);
 
         clock_t startEDFmaxOP = clock();
         int NtEDFmaxOP = runEDFmaxOverdueProcesses(taskSetList[i]);
         clock_t endEDFmaxOP = clock();
-
-        // change time to milliseconds
-        double elapsed_ticks_EDf = difftime(endEDF, startEDf);
-        double milliseconds_EDf = elapsed_ticks_EDf * (1000.0 / CLOCKS_PER_SEC);
-
-        double elapsed_ticks_EDFminT = difftime(endEDFminT, startEDFminT);
-        double milliseconds_EDFminT = elapsed_ticks_EDFminT * (1000.0 / CLOCKS_PER_SEC);
-
-        double elapsed_ticks_EDFmaxT = difftime(endEDFmaxT, startEDFmaxT);
-        double milliseconds_EDFmaxT = elapsed_ticks_EDFmaxT * (1000.0 / CLOCKS_PER_SEC);
-
-        double elapsed_ticks_EDFminOP = difftime(endEDFminOP, startEDFminOP);
-        double milliseconds_EDFminOP = elapsed_ticks_EDFminOP * (1000.0 / CLOCKS_PER_SEC);
-
         double elapsed_ticks_EDFmaxOP = difftime(endEDFmaxOP, startEDFmaxOP);
         double milliseconds_EDFmaxOP = elapsed_ticks_EDFmaxOP * (1000.0 / CLOCKS_PER_SEC);
 
+        // change time to milliseconds
         output << milliseconds_EDf << "," << NtEDF << ","
                << milliseconds_EDFminT << "," << NtEDFminT << ","
                << milliseconds_EDFmaxT << "," << NtEDFmaxT << ","
