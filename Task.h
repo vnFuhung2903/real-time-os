@@ -17,7 +17,7 @@ private:
     int m_hardDeadline;
     int m_period;
     int m_currPeriod;
-    int m_laxity;
+    int m_computationTimeRemaining;
 
 public:
     Task(string name = "", int startTime = 0, int computationTime = 0, int hardDeadline = 0, int period = 0)
@@ -29,7 +29,7 @@ public:
         m_hardDeadline = hardDeadline;
         m_period = period;
         m_currPeriod = 1;
-        m_laxity = hardDeadline - startTime - computationTime;
+        m_computationTimeRemaining = computationTime;
     }
 
     Task &operator=(const Task &task)
@@ -45,7 +45,7 @@ public:
         m_hardDeadline = task.m_hardDeadline;
         m_period = task.m_period;
         m_currPeriod = task.m_currPeriod;
-        m_laxity = task.m_laxity;
+        m_computationTimeRemaining = task.m_computationTimeRemaining;
         return *this;
     }
 
@@ -75,9 +75,9 @@ public:
         return m_computationTime;
     }
 
-    void setComputationTime(int computationTime)
+    int reduceComputationTimeRemaining()
     {
-        m_computationTime = computationTime;
+        --m_computationTimeRemaining;
     }
 
     int getHardDeadline()
@@ -85,19 +85,9 @@ public:
         return m_hardDeadline;
     }
 
-    void setHardDeadline(int hardDeadline)
-    {
-        m_hardDeadline = hardDeadline;
-    }
-
     int getPeriod() const
     {
         return m_period;
-    }
-
-    void setPeriod(int period)
-    {
-        m_period = period;
     }
 
     void printTask()
@@ -105,24 +95,19 @@ public:
         cout<<"PriorityLevel: "<< m_priorityLevel << ", Start Time: " << m_startTime << ", Computation Time: " << m_computationTime << ", Hard Deadline: " << m_hardDeadline << ", Period: " << m_period << endl;
     }
 
-    void setName(string name)
-    {
-        m_name = name;
-    }
-
     string getName()
     {
         return m_name;
     }
 
-    void setLaxity(int laxity)
+    int getComputationTimeRemaining()
     {
-        m_laxity = laxity;
+        return m_computationTimeRemaining;
     }
 
-    int getLaxity()
+    void setComputationTimeRemaining(int computationTimeRemaining)
     {
-        return m_laxity;
+        m_computationTimeRemaining = computationTimeRemaining;
     }
 
     void incrementCurrPeriod()

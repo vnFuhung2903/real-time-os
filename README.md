@@ -1,5 +1,5 @@
 
-# Project IT3070 : Real-time Operating System (RTOS)
+# Project : Real-time Operating System (RTOS)
 
 ## Detail
  Develop or enhance an operating system to support real-time requirements, 

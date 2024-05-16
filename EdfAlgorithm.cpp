@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <set>
 #include <math.h>
 #include <algorithm>
 #include <numeric>
@@ -23,9 +24,59 @@ using namespace std;
  * exception: print "fail process management"
  */
 
-int runEDF(TaskSet taskSet)
+int lcm = 0;
+double res = 0.0;
+
+void sortTaskSet(TaskSet taskSet) {
+    sort(taskSet.getTasks().begin(), taskSet.getTasks().end(), [](const Task &x1, const Task &x2)->bool {
+        return x1.getStartTime() < x2.getStartTime();
+    });
+}
+
+void updateProcess(std::multiset<Task> tasks, TaskSet taskSet) {
+    std::multiset<Task>::iterator it = tasks.begin();
+    if((*it).getComputationTimeRemaining() != 0)
+        return;
+    Task newTask = (*it);
+    tasks.erase(it);
+    newTask.incrementCurrPeriod();
+    if(newTask.getCurrPeriod() * newTask.getPeriod() > lcm) {
+        res += (double) newTask.getComputationTime() / newTask.getPeriod();
+        return;
+    }
+    newTask.setPriorityLevel(newTask.getPriorityLevel() + newTask.getPeriod());
+    newTask.setStartTime(newTask.getStartTime() + newTask.getPeriod());
+    newTask.setComputationTimeRemaining(newTask.getComputationTime());
+    taskSet.addTask(newTask);
+    sortTaskSet(taskSet);
+}
+
+bool checkEDF(Task task, int curTime) {
+    return task.getComputationTimeRemaining() + curTime <= task.getPriorityLevel();
+}
+
+
+bool runEDF(TaskSet taskSet)
 {
-    return 0;
+    lcm = taskSet.getLCMPeriod();
+    TaskSet solutionSet = new TaskSet();
+    res = 0.0;
+    sortTaskSet(taskSet);
+    std::vector<Task>::iterator it = taskSet.getTasks().begin();
+    std::multiset<Task> solutionSet;
+    for(int curTime = 0; curTime <= lcm; ++curTime) {
+        while(it < taskSet.getTasks().end() && curTime == (*it).getStartTime()) {
+            ++it;
+            solutionSet.insert(*it);
+        }
+        if(solutionSet.empty())
+            continue;
+        if(!checkEDF(*solutionSet.begin(), curTime))
+            return false;
+        (*solutionSet.begin()).reduceComputationTimeRemaining();
+        updateProcess(solutionSet, taskSet);
+    }
+    return solutionSet.empty() && it == taskSet.getTasks().end();
 }
 
 /**

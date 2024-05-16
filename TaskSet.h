@@ -20,7 +20,7 @@ class TaskSet
 private:
     int m_numTasks;
     int m_numProcessors;
-    std::multiset<Task> m_tasks;
+    std::vector<Task> m_tasks;
 
 public:
     TaskSet()
@@ -67,7 +67,7 @@ public:
 
     void addTask(Task task)
     {
-        m_tasks.insert(task);
+        m_tasks.push_back(task);
     }
 
     void removeTask()
@@ -100,7 +100,7 @@ public:
         return m_numProcessors;
     }
 
-    std::multiset<Task> getTasks()
+    std::vector<Task> getTasks()
     {
         return m_tasks;
     }
@@ -130,9 +130,7 @@ public:
         }
 
         return lcm;
-    }
-
-    
+    }    
 };
 
 #endif

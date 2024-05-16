@@ -13,7 +13,7 @@
 int main()
 {
     // import data
-    vector<TaskSet> taskSetList;
+    vector<vector<Task>> taskSetList;
     std::ifstream file("RTaskSets.txt"); // Open file
     // std::ifstream file("TestTaskSet.txt"); // Open file
     std::string line;
