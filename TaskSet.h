@@ -107,6 +107,7 @@ public:
 
     void setTasks(std::vector<Task> _tasks)
     {
+        m_tasks.clear();
         m_tasks = _tasks;
     }
 

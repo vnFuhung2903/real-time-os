@@ -25,7 +25,6 @@ using namespace std;
  */
 
 int lcm = 0;
-double res = 0.0;
 TaskSet taskSet;
 
 
@@ -33,7 +32,7 @@ bool checkEDF(Task task, int curTime) {
     return task.getComputationTimeRemaining() + curTime <= task.getPriorityLevel();
 }
 
-void sortTaskSet(TaskSet taskSet) {
+void sortTaskSet(TaskSet &taskSet) {
     
     vector<Task> tasks = taskSet.getTasks();
 
@@ -43,34 +42,41 @@ void sortTaskSet(TaskSet taskSet) {
         return x1.getStartTime() < x2.getStartTime();
     });
 
+
     taskSet.setTasks(tasks);
 }
 
-void updateProcess(std::multiset<Task> tasks, TaskSet taskSet) {
+void updateProcess(std::multiset<Task> &tasks, TaskSet &taskSet) {
     if(tasks.empty())
         return;
+
     std::multiset<Task>::iterator it = tasks.begin();
-    if((*it).getComputationTimeRemaining() != 0)
-        return;
     Task newTask = (*it);
     tasks.erase(it);
-    newTask.incrementCurrPeriod();
-    if(newTask.getCurrPeriod() * newTask.getPeriod() > lcm) {
-        res += (double) newTask.getComputationTime() / newTask.getPeriod();
+    newTask.reduceComputationTimeRemaining();
+    if(newTask.getComputationTimeRemaining() != 0) {
+        tasks.insert(newTask);
         return;
     }
+
+    newTask.incrementCurrPeriod();
+    if(newTask.getCurrPeriod() * newTask.getPeriod() > lcm) {
+        return;
+    }
+
     newTask.setPriorityLevel(newTask.getPriorityLevel() + newTask.getPeriod());
     newTask.setStartTime(newTask.getStartTime() + newTask.getPeriod());
     newTask.setComputationTimeRemaining(newTask.getComputationTime());
     taskSet.addTask(newTask);
+
     sortTaskSet(taskSet);
     return;
 }
 
 
-bool backtrackEDF(int curTime, std::vector<Task>::iterator it, vector<std::multiset<Task>> tasks, TaskSet taskSet) {
+bool backtrackEDF(int curTime, std::multiset<Task> tasks[], TaskSet taskSet) {
     if(curTime == lcm) {
-        if(it < taskSet.getTasks().end())
+        if(!taskSet.getTasks().empty())
             return false;
         for(int i = 0; i < taskSet.getNumProcessors(); ++i) 
             if(!tasks[i].empty())
@@ -78,19 +84,16 @@ bool backtrackEDF(int curTime, std::vector<Task>::iterator it, vector<std::multi
         return true;
     }
 
-    bool added = false;
-
-    if(it < taskSet.getTasks().end() && curTime == (*it).getStartTime()) {
-        ++it;
-        added = true;
-    }
-
     bool res = false;
 
-    if(added) {
+    if(!taskSet.getTasks().empty() && curTime == (*taskSet.getTasks().begin()).getStartTime()) {
+        Task newTask = *taskSet.getTasks().begin();
         for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
-            tasks[i].insert((*it));
-            res |= backtrackEDF(curTime, it, tasks, taskSet);
+            tasks[i].insert(newTask);
+            // cout << i << ' ' << newTask.getName() << '\n';
+            taskSet.removeTask();
+            res |= backtrackEDF(curTime, tasks, taskSet);
+            taskSet.addTask(newTask);
         }
     }
 
@@ -100,23 +103,28 @@ bool backtrackEDF(int curTime, std::vector<Task>::iterator it, vector<std::multi
                 return false;
             updateProcess(tasks[i], taskSet);
         }
-        res |= backtrackEDF(curTime + 1, it, tasks, taskSet);
+        res |= backtrackEDF(curTime + 1, tasks, taskSet);
     }
     
     return res;
 }
 
 
-bool runEDF(TaskSet _taskSet)
+double runEDF(TaskSet taskSet)
 {
     lcm = (int) taskSet.getLCMPeriod();
-    res = 0.0;
-    taskSet.printTaskSet();
+    double res = 0;
+    for(Task &task : taskSet.getTasks()) {
+        res += task.getComputationTime();
+    }
+    res = (double) res / (taskSet.getNumProcessors() * taskSet.getNumTasks());
+    // taskSet.printTaskSet();
     sortTaskSet(taskSet);
-    taskSet.printTaskSet();
-    std::vector<Task>::iterator it = taskSet.getTasks().begin();
-    vector<std::multiset<Task>> solutionSet;
-    return backtrackEDF(0, it, solutionSet, taskSet);
+    // taskSet.printTaskSet();
+    std::multiset<Task> solutionSet[taskSet.getNumProcessors()];
+    if(backtrackEDF(0, solutionSet, taskSet))
+        return res;
+    return -1.0;
     // for(int curTime = 0; curTime <= lcm; ++curTime) {
     //     while(it < taskSet.getTasks().end() && curTime == (*it).getStartTime()) {
     //         ++it;

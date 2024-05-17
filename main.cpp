@@ -94,12 +94,7 @@ int main()
     for (int i = 0; i < taskSetList.size() ; i++)
     {
         output << "TaskSet" << i << ",";
-
-        if (runEDF(taskSetList[i]))
-        {
-            cout << "Completed";
-        }
-        cout << '\n';
+        cout << runEDF(taskSetList[i]) << '\n';
         // change time to milliseconds
         
     }
