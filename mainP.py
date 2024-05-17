@@ -77,7 +77,7 @@ button1.pack(pady=5, padx=15)
 button2 = tk.Button(root, text="Comparison number of off deadline processes", command=create_new_window2, width=30, height=3, wraplength=200)
 button2.pack(pady=5, padx=15)
 
-button3 = tk.Button(root, text="processes management", command=create_new_window3, width=30, height=3, wraplength=200)
+button3 = tk.Button(root, text="Processes management", command=create_new_window3, width=30, height=3, wraplength=200)
 button3.pack(pady=5, padx=15)
 
 buttonQuit = tk.Button(root, text="Quit", command=root.quit, width=30, height=3, wraplength=200)

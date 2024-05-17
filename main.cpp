@@ -91,14 +91,15 @@ int main()
     NtEDFmaxOP the number of tasks across the deadline in runEDFmaxOverdueProcesses
     */
     output << "TaskSet,TrEDF,NtEDF,TrEDFminT,NtEDFminT,TrEDFmaxT,NtEDFmaxT,TrEDFminOP,NtEDFminOP,TrEDFmaxOP,NtEDFmaxOP" << endl;
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < taskSetList.size() ; i++)
     {
         output << "TaskSet" << i << ",";
+        cout << taskSetList[i].getLCMPeriod()<< endl;
 
-        if (runEDF(taskSetList[i]))
-        {
-            cout << "TaskSet" << i << " is schedulable" << endl;
-        }
+        // if (runEDF(taskSetList[i]))
+        // {
+            
+        // }
         // change time to milliseconds
         
     }

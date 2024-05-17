@@ -110,15 +110,15 @@ public:
         m_numTasks = numTasks;
     }
 
-    unsigned long long gcd(unsigned long long a, unsigned long long b)
-    {
-        // find the greatest common divisor
-        if (b == 0)
-        {
-            return a;
-        }
-        return gcd(b, a % b);
-    }
+    // unsigned long long gcd(unsigned long long a, unsigned long long b)
+    // {
+    //     // find the greatest common divisor
+    //     if (b == 0)
+    //     {
+    //         return a;
+    //     }
+    //     return gcd(b, a % b);
+    // }
 
     unsigned long long getLCMPeriod()
     {
@@ -126,11 +126,11 @@ public:
         unsigned long long lcm = 1;
         for (auto &task : m_tasks)
         {
-            lcm = ((unsigned long long)task.getPeriod() * lcm) / gcd((unsigned long long)task.getPeriod(), lcm);
+            unsigned long long period = task.getPeriod();
+            lcm = (lcm / __gcd(period, lcm)) * period;
         }
-
         return lcm;
-    }    
+    }
 };
 
 #endif

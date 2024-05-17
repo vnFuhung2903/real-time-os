@@ -24,7 +24,7 @@ using namespace std;
  * exception: print "fail process management"
  */
 
-int lcm = 0;
+unsigned long long lcm = 0;
 double res = 0.0;
 
 
@@ -103,11 +103,12 @@ bool runEDF(TaskSet taskSet)
 {
     lcm = taskSet.getLCMPeriod();
     res = 0.0;
-    sortTaskSet(taskSet);
-    std::vector<Task>::iterator it = taskSet.getTasks().begin();
-    vector<std::multiset<Task>> solutionSet;
+    // sortTaskSet(taskSet);
+    // std::vector<Task>::iterator it = taskSet.getTasks().begin();
+    // std :: vector<std::multiset<Task>> solutionSet;
 
-    return backtrackEDF(0, it, solutionSet, taskSet);
+    // return backtrackEDF(0, it, solutionSet, taskSet);
+    return false;
     // for(int curTime = 0; curTime <= lcm; ++curTime) {
     //     while(it < taskSet.getTasks().end() && curTime == (*it).getStartTime()) {
     //         ++it;
