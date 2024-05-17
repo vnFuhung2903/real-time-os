@@ -25,7 +25,6 @@ using namespace std;
  */
 
 int lcm = 0;
-double res = 0.0;
 
 
 bool checkEDF(Task task, int curTime) {
@@ -41,6 +40,8 @@ void sortTaskSet(TaskSet taskSet) {
 }
 
 void updateProcess(std::multiset<Task> tasks, TaskSet taskSet) {
+    if(tasks.empty())
+        return;
     std::multiset<Task>::iterator it = tasks.begin();
     if((*it).getComputationTimeRemaining() != 0)
         return;
@@ -102,7 +103,6 @@ bool backtrackEDF(int curTime, std::vector<Task>::iterator it, vector<std::multi
 bool runEDF(TaskSet taskSet)
 {
     lcm = taskSet.getLCMPeriod();
-    res = 0.0;
     sortTaskSet(taskSet);
     std::vector<Task>::iterator it = taskSet.getTasks().begin();
     vector<std::multiset<Task>> solutionSet;
