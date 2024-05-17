@@ -27,8 +27,15 @@ using namespace std;
 int lcm = 0;
 double res = 0.0;
 
+
+bool checkEDF(Task task, int curTime) {
+    return task.getComputationTimeRemaining() + curTime <= task.getPriorityLevel();
+}
+
 void sortTaskSet(TaskSet taskSet) {
     sort(taskSet.getTasks().begin(), taskSet.getTasks().end(), [](const Task &x1, const Task &x2)->bool {
+        if(x1.getStartTime() == x2.getStartTime())
+            return x1.getPriorityLevel() < x2.getPriorityLevel();
         return x1.getStartTime() < x2.getStartTime();
     });
 }
@@ -49,34 +56,71 @@ void updateProcess(std::multiset<Task> tasks, TaskSet taskSet) {
     newTask.setComputationTimeRemaining(newTask.getComputationTime());
     taskSet.addTask(newTask);
     sortTaskSet(taskSet);
+    return;
 }
 
-bool checkEDF(Task task, int curTime) {
-    return task.getComputationTimeRemaining() + curTime <= task.getPriorityLevel();
+
+bool backtrackEDF(int curTime, std::vector<Task>::iterator it, vector<std::multiset<Task>> tasks, TaskSet taskSet) {
+    if(curTime == lcm) {
+        if(it < taskSet.getTasks().end())
+            return false;
+        for(int i = 0; i < taskSet.getNumProcessors(); ++i) 
+            if(!tasks[i].empty())
+                return false;
+        return true;
+    }
+
+    bool added = false;
+
+    if(it < taskSet.getTasks().end() && curTime == (*it).getStartTime()) {
+        ++it;
+        added = true;
+    }
+
+    bool res = false;
+
+    if(added) {
+        for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
+            tasks[i].insert((*it));
+            res |= backtrackEDF(curTime, it, tasks, taskSet);
+        }
+    }
+
+    else {
+        for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
+            if(!tasks[i].empty() && !checkEDF(*tasks[i].begin(), curTime))
+                return false;
+            updateProcess(tasks[i], taskSet);
+        }
+        res |= backtrackEDF(curTime + 1, it, tasks, taskSet);
+    }
+    
+    return res;
 }
 
 
 bool runEDF(TaskSet taskSet)
 {
     lcm = taskSet.getLCMPeriod();
-    TaskSet solutionSet = new TaskSet();
     res = 0.0;
     sortTaskSet(taskSet);
     std::vector<Task>::iterator it = taskSet.getTasks().begin();
-    std::multiset<Task> solutionSet;
-    for(int curTime = 0; curTime <= lcm; ++curTime) {
-        while(it < taskSet.getTasks().end() && curTime == (*it).getStartTime()) {
-            ++it;
-            solutionSet.insert(*it);
-        }
-        if(solutionSet.empty())
-            continue;
-        if(!checkEDF(*solutionSet.begin(), curTime))
-            return false;
-        (*solutionSet.begin()).reduceComputationTimeRemaining();
-        updateProcess(solutionSet, taskSet);
-    }
-    return solutionSet.empty() && it == taskSet.getTasks().end();
+    vector<std::multiset<Task>> solutionSet;
+
+    return backtrackEDF(0, it, solutionSet, taskSet);
+    // for(int curTime = 0; curTime <= lcm; ++curTime) {
+    //     while(it < taskSet.getTasks().end() && curTime == (*it).getStartTime()) {
+    //         ++it;
+    //         solutionSet.insert(*it);
+    //     }
+    //     if(solutionSet.empty())
+    //         continue;
+    //     if(!checkEDF(*solutionSet.begin(), curTime))
+    //         return false;
+    //     (*solutionSet.begin()).reduceComputationTimeRemaining();
+    //     updateProcess(solutionSet, taskSet);
+    // }
+    // return solutionSet.empty() && it == taskSet.getTasks().end();
 }
 
 /**
