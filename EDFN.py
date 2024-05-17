@@ -59,7 +59,6 @@ def show_plot():
         while task[i]["Period"]+ m*task[i]["Period"] <= LCM:
             gnt.arrow(task[i]["Period"] + m * task[i]["Period"], 10 * (task[i]["Task Number"]), 0, 5, head_width=0.2, head_length=0.5, fc='black', ec='black')
             m += 1
-
     for step in range(0, LCM):
         for i in range(0, int(numberOfTasks)):
             if task[i]["Start Time"] == step:
