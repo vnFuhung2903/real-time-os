@@ -72,7 +72,7 @@ public:
 
     void removeTask()
     {
-        std::multiset<Task>::iterator it = m_tasks.begin();
+        std::vector<Task>::iterator it = m_tasks.begin();
         m_tasks.erase(it);
     }
 

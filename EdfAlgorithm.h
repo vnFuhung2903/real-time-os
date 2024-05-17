@@ -9,7 +9,11 @@
 #include "Task.h"
 #include "TaskSet.h"
 
-int runEDF(TaskSet taskSet);
+void sortTaskSet(TaskSet taskSet);
+void updateProcess(std::multiset<Task> tasks, TaskSet taskSet);
+bool checkEDF(Task task, int curTime);
+
+bool runEDF(TaskSet taskSet);
 
 int runEDFminTime(TaskSet taskSet);
 int runEDFmaxTime(TaskSet taskSet);

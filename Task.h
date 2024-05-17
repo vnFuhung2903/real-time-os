@@ -75,9 +75,9 @@ public:
         return m_computationTime;
     }
 
-    int reduceComputationTimeRemaining()
+    void reduceComputationTimeRemaining()
     {
-        --m_computationTimeRemaining;
+         --m_computationTimeRemaining;
     }
 
     int getHardDeadline()
@@ -100,7 +100,7 @@ public:
         return m_name;
     }
 
-    int getComputationTimeRemaining()
+    int getComputationTimeRemaining() const
     {
         return m_computationTimeRemaining;
     }
