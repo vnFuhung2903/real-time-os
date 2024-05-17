@@ -24,7 +24,7 @@ using namespace std;
  * exception: print "fail process management"
  */
 
-unsigned long long lcm = 0;
+int lcm = 0;
 double res = 0.0;
 
 
@@ -41,6 +41,8 @@ void sortTaskSet(TaskSet taskSet) {
 }
 
 void updateProcess(std::multiset<Task> tasks, TaskSet taskSet) {
+    if(tasks.empty())
+        return;
     std::multiset<Task>::iterator it = tasks.begin();
     if((*it).getComputationTimeRemaining() != 0)
         return;
@@ -103,9 +105,9 @@ bool runEDF(TaskSet taskSet)
 {
     lcm = taskSet.getLCMPeriod();
     res = 0.0;
-    // sortTaskSet(taskSet);
-    // std::vector<Task>::iterator it = taskSet.getTasks().begin();
-    // std :: vector<std::multiset<Task>> solutionSet;
+    sortTaskSet(taskSet);
+    std::vector<Task>::iterator it = taskSet.getTasks().begin();
+    vector<std::multiset<Task>> solutionSet;
 
     // return backtrackEDF(0, it, solutionSet, taskSet);
     return false;
