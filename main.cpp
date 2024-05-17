@@ -94,12 +94,12 @@ int main()
     for (int i = 0; i < taskSetList.size() ; i++)
     {
         output << "TaskSet" << i << ",";
-        cout << taskSetList[i].getLCMPeriod()<< endl;
 
-        // if (runEDF(taskSetList[i]))
-        // {
-            
-        // }
+        if (runEDF(taskSetList[i]))
+        {
+            cout << "Completed";
+        }
+        cout << '\n';
         // change time to milliseconds
         
     }

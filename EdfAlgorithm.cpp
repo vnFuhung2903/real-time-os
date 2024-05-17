@@ -26,6 +26,7 @@ using namespace std;
 
 int lcm = 0;
 double res = 0.0;
+TaskSet taskSet;
 
 
 bool checkEDF(Task task, int curTime) {
@@ -33,11 +34,16 @@ bool checkEDF(Task task, int curTime) {
 }
 
 void sortTaskSet(TaskSet taskSet) {
-    sort(taskSet.getTasks().begin(), taskSet.getTasks().end(), [](const Task &x1, const Task &x2)->bool {
+    
+    vector<Task> tasks = taskSet.getTasks();
+
+    sort(tasks.begin(), tasks.end(), [](const Task &x1, const Task &x2)->bool {
         if(x1.getStartTime() == x2.getStartTime())
             return x1.getPriorityLevel() < x2.getPriorityLevel();
         return x1.getStartTime() < x2.getStartTime();
     });
+
+    taskSet.setTasks(tasks);
 }
 
 void updateProcess(std::multiset<Task> tasks, TaskSet taskSet) {
@@ -101,16 +107,16 @@ bool backtrackEDF(int curTime, std::vector<Task>::iterator it, vector<std::multi
 }
 
 
-bool runEDF(TaskSet taskSet)
+bool runEDF(TaskSet _taskSet)
 {
-    lcm = taskSet.getLCMPeriod();
+    lcm = (int) taskSet.getLCMPeriod();
     res = 0.0;
+    taskSet.printTaskSet();
     sortTaskSet(taskSet);
+    taskSet.printTaskSet();
     std::vector<Task>::iterator it = taskSet.getTasks().begin();
     vector<std::multiset<Task>> solutionSet;
-
-    // return backtrackEDF(0, it, solutionSet, taskSet);
-    return false;
+    return backtrackEDF(0, it, solutionSet, taskSet);
     // for(int curTime = 0; curTime <= lcm; ++curTime) {
     //     while(it < taskSet.getTasks().end() && curTime == (*it).getStartTime()) {
     //         ++it;

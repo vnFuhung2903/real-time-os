@@ -81,7 +81,7 @@ public:
         // print the priority level of each task in the task set
         for (const auto &task : m_tasks)
         {
-            std::cout << task.getPriorityLevel() << std::endl;
+            std::cout << task.getStartTime() << ' ' << task.getPriorityLevel() << std::endl;
         }
     }
 
@@ -105,20 +105,25 @@ public:
         return m_tasks;
     }
 
+    void setTasks(std::vector<Task> _tasks)
+    {
+        m_tasks = _tasks;
+    }
+
     void setNumTasks(int numTasks)
     {
         m_numTasks = numTasks;
     }
 
-    // unsigned long long gcd(unsigned long long a, unsigned long long b)
-    // {
-    //     // find the greatest common divisor
-    //     if (b == 0)
-    //     {
-    //         return a;
-    //     }
-    //     return gcd(b, a % b);
-    // }
+    unsigned long long gcd(unsigned long long a, unsigned long long b)
+    {
+        // find the greatest common divisor
+        if (b == 0)
+        {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
 
     unsigned long long getLCMPeriod()
     {
@@ -127,7 +132,11 @@ public:
         for (auto &task : m_tasks)
         {
             unsigned long long period = task.getPeriod();
-            lcm = (lcm / __gcd(period, lcm)) * period;
+            unsigned long long _gcd = gcd(lcm, period);
+            if(_gcd != 0) {
+                lcm /= _gcd;
+            }
+            lcm *= period;
         }
         return lcm;
     }
