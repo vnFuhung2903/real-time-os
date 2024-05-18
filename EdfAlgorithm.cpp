@@ -68,8 +68,8 @@ void updateProcess(int id, TaskSet &taskSet) {
     newTask.setPriorityLevel(newTask.getPriorityLevel() + newTask.getPeriod());
     newTask.setStartTime(newTask.getStartTime() + newTask.getPeriod());
     newTask.setComputationTimeRemaining(newTask.getComputationTime());
-    taskSet.addTask(newTask);
 
+    taskSet.addTask(newTask);
     sortTaskSet(taskSet);
     return;
 }
@@ -90,24 +90,25 @@ bool backtrackEDF(int curTime, TaskSet taskSet) {
     if(!taskSet.getTasks().empty() && curTime == (*taskSet.getTasks().begin()).getStartTime()) {
         Task newTask = *taskSet.getTasks().begin();
         for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
+            if(newTask.getProcessor() != -1 && newTask.getProcessor() != i)
+                continue;
+            bool first_appear = newTask.getProcessor() == -1;
+            if(first_appear) newTask.setProcessor(i);
             tasks[i].insert(newTask);
-            // cout << i << ' ' << newTask.getName() << '\n';
             taskSet.removeTask();
             res |= backtrackEDF(curTime, taskSet);
             taskSet.addTask(newTask);
             tasks[i].erase(newTask);
+            if(first_appear) newTask.setProcessor(-1);
         }
     }
 
     else {
         for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
-            if(!tasks[i].empty() && !checkEDF(*tasks[i].begin(), curTime))
+            if(!tasks[i].empty() && !checkEDF(*tasks[i].begin(), curTime)) {
                 return false;
+            }
             updateProcess(i, taskSet);
-            // cout << curTime << ' ' << i << '\n';
-            // for(Task task : tasks[i])
-            //     cout << task.getName() << ' ';
-            // cout << '\n';
         }
         res |= backtrackEDF(curTime + 1, taskSet);
     }
@@ -126,6 +127,9 @@ double runEDF(TaskSet taskSet)
     res = (double) res / (taskSet.getNumProcessors() * taskSet.getNumTasks());
     // taskSet.printTaskSet();
     sortTaskSet(taskSet);
+    for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
+        tasks[i].clear();        
+    }
     // taskSet.printTaskSet();
     if(backtrackEDF(0, taskSet))
         return res;

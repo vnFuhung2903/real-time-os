@@ -18,6 +18,7 @@ private:
     int m_period;
     int m_currPeriod;
     int m_computationTimeRemaining;
+    int m_processor;
 
 public:
     Task(string name = "", int startTime = 0, int computationTime = 0, int hardDeadline = 0, int period = 0)
@@ -30,6 +31,7 @@ public:
         m_period = period;
         m_currPeriod = 1;
         m_computationTimeRemaining = computationTime;
+        m_processor = -1;
     }
 
     Task &operator=(const Task &task)
@@ -46,6 +48,7 @@ public:
         m_period = task.m_period;
         m_currPeriod = task.m_currPeriod;
         m_computationTimeRemaining = task.m_computationTimeRemaining;
+        m_processor = task.m_processor;
         return *this;
     }
 
@@ -118,6 +121,14 @@ public:
     int getCurrPeriod()
     {
         return m_currPeriod;
+    }
+
+    int getProcessor() {
+        return m_processor;
+    }
+
+    void setProcessor(int processor) {
+        m_processor = processor;
     }
 
     bool operator<(const Task &other) const
