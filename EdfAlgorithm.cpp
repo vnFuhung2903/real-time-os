@@ -26,6 +26,7 @@ using namespace std;
 
 int lcm = 0;
 TaskSet taskSet;
+std::multiset<Task> tasks[52];
 
 
 bool checkEDF(Task task, int curTime) {
@@ -46,16 +47,16 @@ void sortTaskSet(TaskSet &taskSet) {
     taskSet.setTasks(tasks);
 }
 
-void updateProcess(std::multiset<Task> &tasks, TaskSet &taskSet) {
-    if(tasks.empty())
+void updateProcess(int id, TaskSet &taskSet) {
+    if(tasks[id].empty())
         return;
 
-    std::multiset<Task>::iterator it = tasks.begin();
+    std::multiset<Task>::iterator it = tasks[id].begin();
     Task newTask = (*it);
-    tasks.erase(it);
+    tasks[id].erase(it);
     newTask.reduceComputationTimeRemaining();
     if(newTask.getComputationTimeRemaining() != 0) {
-        tasks.insert(newTask);
+        tasks[id].insert(newTask);
         return;
     }
 
@@ -74,7 +75,7 @@ void updateProcess(std::multiset<Task> &tasks, TaskSet &taskSet) {
 }
 
 
-bool backtrackEDF(int curTime, std::multiset<Task> tasks[], TaskSet taskSet) {
+bool backtrackEDF(int curTime, TaskSet taskSet) {
     if(curTime == lcm) {
         if(!taskSet.getTasks().empty())
             return false;
@@ -92,8 +93,9 @@ bool backtrackEDF(int curTime, std::multiset<Task> tasks[], TaskSet taskSet) {
             tasks[i].insert(newTask);
             // cout << i << ' ' << newTask.getName() << '\n';
             taskSet.removeTask();
-            res |= backtrackEDF(curTime, tasks, taskSet);
+            res |= backtrackEDF(curTime, taskSet);
             taskSet.addTask(newTask);
+            tasks[i].erase(newTask);
         }
     }
 
@@ -101,9 +103,13 @@ bool backtrackEDF(int curTime, std::multiset<Task> tasks[], TaskSet taskSet) {
         for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
             if(!tasks[i].empty() && !checkEDF(*tasks[i].begin(), curTime))
                 return false;
-            updateProcess(tasks[i], taskSet);
+            updateProcess(i, taskSet);
+            // cout << curTime << ' ' << i << '\n';
+            // for(Task task : tasks[i])
+            //     cout << task.getName() << ' ';
+            // cout << '\n';
         }
-        res |= backtrackEDF(curTime + 1, tasks, taskSet);
+        res |= backtrackEDF(curTime + 1, taskSet);
     }
     
     return res;
@@ -121,8 +127,7 @@ double runEDF(TaskSet taskSet)
     // taskSet.printTaskSet();
     sortTaskSet(taskSet);
     // taskSet.printTaskSet();
-    std::multiset<Task> solutionSet[taskSet.getNumProcessors()];
-    if(backtrackEDF(0, solutionSet, taskSet))
+    if(backtrackEDF(0, taskSet))
         return res;
     return -1.0;
     // for(int curTime = 0; curTime <= lcm; ++curTime) {
