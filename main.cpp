@@ -90,15 +90,32 @@ int main()
     TrEDFmaxOP time runEDFmaxOverdueProcesses
     NtEDFmaxOP the number of tasks across the deadline in runEDFmaxOverdueProcesses
     */
-    output << "TaskSet,TrEDF,NtEDF,TrEDFminT,NtEDFminT,TrEDFmaxT,NtEDFmaxT,TrEDFminOP,NtEDFminOP,TrEDFmaxOP,NtEDFmaxOP" << endl;
+    // output << "TaskSet,TrEDF,NtEDF,TrEDFminT,NtEDFminT,TrEDFmaxT,NtEDFmaxT,TrEDFminOP,NtEDFminOP,TrEDFmaxOP,NtEDFmaxOP" << endl;
     for (int i = 0; i < taskSetList.size() ; i++)
     {
         output << "TaskSet" << i << ",";
-        cout << runEDF(taskSetList[i]) << '\n';
+        // cout << backtrackEDF(0,taskSetList[i]) << '\n';
+        // cout<< checkEDF(taskSetList[i],0) << '\n';
+
         // change time to milliseconds
         
     }
+    updateProcess(0,taskSetList[0]);
+    if (backtrackEDF(0,taskSetList[5]))
+    {
+        cout << "true";
+    }
+    // cout<< taskSetList[5].getNumProcessors();
+    
+    // updateProcess(1,taskSetList[0]);
+    // for (int i = 0; i < taskSetList[0].getNumTasks(); i++)
+    // {
+    //     cout <<taskSetList[0].getTasks()[i].getPriorityLevel()<<endl;
+    // }
+    
 
-    output.close();
+
+
+    // output.close();
     return 0;
 }

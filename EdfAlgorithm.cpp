@@ -25,8 +25,10 @@ using namespace std;
  */
 
 int lcm = 0;
-TaskSet taskSet;
+// TaskSet taskSet;
 std::multiset<Task> tasks[52];
+// tối đa có 10 process mỗi task set tối đa 200 tasks
+
 
 
 bool checkEDF(Task task, int curTime) {
@@ -34,7 +36,7 @@ bool checkEDF(Task task, int curTime) {
 }
 
 void sortTaskSet(TaskSet &taskSet) {
-    
+    //ok
     vector<Task> tasks = taskSet.getTasks();
 
     sort(tasks.begin(), tasks.end(), [](const Task &x1, const Task &x2)->bool {
@@ -42,14 +44,13 @@ void sortTaskSet(TaskSet &taskSet) {
             return x1.getPriorityLevel() < x2.getPriorityLevel();
         return x1.getStartTime() < x2.getStartTime();
     });
-
-
     taskSet.setTasks(tasks);
 }
 
 void updateProcess(int id, TaskSet &taskSet) {
     if(tasks[id].empty())
         return;
+    // lỗi : tasks[id] luôn empty
 
     std::multiset<Task>::iterator it = tasks[id].begin();
     Task newTask = (*it);
@@ -69,7 +70,7 @@ void updateProcess(int id, TaskSet &taskSet) {
     newTask.setStartTime(newTask.getStartTime() + newTask.getPeriod());
     newTask.setComputationTimeRemaining(newTask.getComputationTime());
     taskSet.addTask(newTask);
-
+    taskSet.printTaskSet();
     sortTaskSet(taskSet);
     return;
 }
@@ -144,47 +145,4 @@ double runEDF(TaskSet taskSet)
     // }
     // return solutionSet.empty() && it == taskSet.getTasks().end();
 }
-
-/**
- * Runs the Earliest Deadline First (EDF) algorithm on the given task set.
- * phiên bản cải tiến của EDF áp dụng giải thuật backtracking
- *
- * @param taskSet The task set to be scheduled.
- * có nhưng tiến trình có cùng priorityLevel áp dụng giải thuật backtracking
- * xác định thời gian chạy ngắn nhất và dài nhất và số tiến trình lỡ deadline tương ứng
- * vẽ được đồ thị tương quan
- * @return the number of tasks across the deadline.
- */
-int runEDFminTime(TaskSet taskSet)
-{
-    /*
-    chạy EDF với giải thuật backtracking trường hợp chạy ít thời gian nhất
-    */
-    return 0;
-}
-
-int runEDFmaxTime(TaskSet taskSet)
-{
-    /*
-    chạy EDF với giải thuật backtracking trường hợp chạy nhiều thời gian nhất
-    */
-    return 0;
-}
-
-int runEDFminOverdueProcesses(TaskSet taskSet)
-{
-    /*
-    chạy EDF với giải thuật backtracking trường hợp chạy ít tiến trình quá deadline nhất
-    */
-    return 0;
-}
-
-int runEDFmaxOverdueProcesses(TaskSet taskSet)
-{
-    /*
-    chạy EDF với giải thuật backtracking trường hợp chạy nhiều tiến trình quá deadline nhất
-    */
-    return 0;
-}
-
 
