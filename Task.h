@@ -52,7 +52,7 @@ public:
         return *this;
     }
 
-    int getPriorityLevel() const
+    int getPriorityLevel() 
     {
         return m_priorityLevel;
     }
@@ -83,7 +83,7 @@ public:
          --m_computationTimeRemaining;
     }
 
-    int getHardDeadline()
+    int getHardDeadline() const
     {
         return m_hardDeadline;
     }
@@ -133,9 +133,9 @@ public:
 
     bool operator<(const Task &other) const
     {
-        if(this->getPriorityLevel() == other.getPriorityLevel())
-            return this->getComputationTimeRemaining() < other.getComputationTimeRemaining();
-        return this->getPriorityLevel() < other.getPriorityLevel();
+        // if(this->getPriorityLevel() == other.getPriorityLevel())
+        //     return this->getComputationTimeRemaining() < other.getComputationTimeRemaining();
+        return this->getHardDeadline() < other.getHardDeadline();
     }
 };
 

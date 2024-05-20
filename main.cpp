@@ -100,7 +100,6 @@ int main()
         // change time to milliseconds
         
     }
-    updateProcess(0,taskSetList[0]);
     if (backtrackEDF(0,taskSetList[5]))
     {
         cout << "true";

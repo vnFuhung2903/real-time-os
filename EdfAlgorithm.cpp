@@ -35,22 +35,50 @@ bool checkEDF(Task task, int curTime) {
     return task.getComputationTimeRemaining() + curTime <= task.getPriorityLevel();
 }
 
-void sortTaskSet(TaskSet &taskSet) {
+// void sortTaskSet(TaskSet &taskSet) {
     //ok
-    vector<Task> tasks = taskSet.getTasks();
+    // vector<Task> tasks = taskSet.getTasks();
 
-    sort(tasks.begin(), tasks.end(), [](const Task &x1, const Task &x2)->bool {
-        if(x1.getStartTime() == x2.getStartTime())
-            return x1.getPriorityLevel() < x2.getPriorityLevel();
-        return x1.getStartTime() < x2.getStartTime();
-    });
+    // sort(tasks.begin(), tasks.end(), [](const Task &x1, const Task &x2)->bool {
+    //     if(x1.getStartTime() == x2.getStartTime())
+    //         return x1.getPriorityLevel() < x2.getPriorityLevel();
+    //     return x1.getStartTime() < x2.getStartTime();
+    // });
+
+    
+//     taskSet.setTasks(tasks);
+// }
+void sortTaskSet(TaskSet &taskSet) {
+    vector<Task> tasks = taskSet.getTasks();
+    int n = tasks.size();
+    bool swapped;
+    for (int i = 0; i < n - 1; ++i) {
+        swapped = false;
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (tasks[j].getStartTime() == tasks[j + 1].getStartTime()) {
+                if (tasks[j].getPriorityLevel() > tasks[j + 1].getPriorityLevel()) {
+                    std::swap(tasks[j], tasks[j + 1]);
+                    swapped = true;
+                }
+            }
+            if (tasks[j].getStartTime() > tasks[j + 1].getStartTime()) {
+                std::swap(tasks[j], tasks[j + 1]);
+                swapped = true;
+            }
+        }
+        // Nếu không có phần tử nào được hoán đổi trong lần lặp này, mảng đã được sắp xếp
+        if (!swapped) {
+            break;
+        }
+    }
+
     taskSet.setTasks(tasks);
 }
 
 void updateProcess(int id, TaskSet &taskSet) {
     if(tasks[id].empty())
         return;
-    // lỗi : tasks[id] luôn empty
+    // lỗi : tasks[id] luôn empty..
 
     std::multiset<Task>::iterator it = tasks[id].begin();
     Task newTask = (*it);
