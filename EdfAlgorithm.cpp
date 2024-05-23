@@ -1,3 +1,6 @@
+//
+// Created by home on 5/20/2024.
+//
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -13,41 +16,13 @@
 
 using namespace std;
 
-// To check functions, all functions will return 0 after testing.
-
-/**
- * Runs the Earliest Deadline First (EDF) algorithm on the given task set.
- *
- * @param taskSet The task set to be scheduled using EDF algorithm.
- * input: TaskSet include "m_numTasks" tasks
- * output:  the number of tasks across the deadline
- * exception: print "fail process management"
- */
-
-int lcm = 0;
-// TaskSet taskSet;
+int lcm_value = 0;
 std::multiset<Task> tasks[52];
-// tối đa có 10 process mỗi task set tối đa 200 tasks
-
-
 
 bool checkEDF(Task task, int curTime) {
     return task.getComputationTimeRemaining() + curTime <= task.getPriorityLevel();
 }
 
-// void sortTaskSet(TaskSet &taskSet) {
-    //ok
-    // vector<Task> tasks = taskSet.getTasks();
-
-    // sort(tasks.begin(), tasks.end(), [](const Task &x1, const Task &x2)->bool {
-    //     if(x1.getStartTime() == x2.getStartTime())
-    //         return x1.getPriorityLevel() < x2.getPriorityLevel();
-    //     return x1.getStartTime() < x2.getStartTime();
-    // });
-
-    
-//     taskSet.setTasks(tasks);
-// }
 void sortTaskSet(TaskSet &taskSet) {
     vector<Task> tasks = taskSet.getTasks();
     int n = tasks.size();
@@ -71,111 +46,108 @@ void sortTaskSet(TaskSet &taskSet) {
             break;
         }
     }
-
     taskSet.setTasks(tasks);
 }
 
 void updateProcess(int id, TaskSet &taskSet) {
-    if(tasks[id].empty())
+    if (tasks[id].empty())
         return;
-    // lỗi : tasks[id] luôn empty..
 
     std::multiset<Task>::iterator it = tasks[id].begin();
     Task newTask = (*it);
     tasks[id].erase(it);
+    std::cout << " num task be removed " <<id<< ": "<< tasks[id].size() << std::endl;
+    std:: cout<< "newTask time remaining: "<< newTask.getComputationTimeRemaining() << std::endl;
     newTask.reduceComputationTimeRemaining();
-    if(newTask.getComputationTimeRemaining() != 0) {
+    std::cout << "After reducing computation time remaining: " << newTask.getComputationTimeRemaining() << std::endl;
+
+    if (newTask.getComputationTimeRemaining() != 0) {
         tasks[id].insert(newTask);
+        std::cout << " num task be added " <<id<< ": "<< tasks[id].size() << std::endl;
         return;
     }
 
     newTask.incrementCurrPeriod();
-    if(newTask.getCurrPeriod() * newTask.getPeriod() > lcm) {
+    std::cout << "After incrementing current period: " << newTask.getCurrPeriod() << std::endl;
+
+    if (newTask.getCurrPeriod() * newTask.getPeriod() > lcm_value) {
         return;
     }
 
     newTask.setPriorityLevel(newTask.getPriorityLevel() + newTask.getPeriod());
+    std::cout << "After updating priority level: " << newTask.getPriorityLevel() << std::endl;
     newTask.setStartTime(newTask.getStartTime() + newTask.getPeriod());
+    std::cout << "After updating start time: " << newTask.getStartTime() << std::endl;
     newTask.setComputationTimeRemaining(newTask.getComputationTime());
+    std::cout << "After resetting computation time remaining: " << newTask.getComputationTimeRemaining() << std::endl;
 
     taskSet.addTask(newTask);
-
+    std::cout << "num task  in taskSet:  " << taskSet.getTasks().size() << endl;
     sortTaskSet(taskSet);
     return;
 }
 
-
 bool backtrackEDF(int curTime, TaskSet taskSet) {
-    if(curTime == lcm) {
-        if(!taskSet.getTasks().empty())
+    if (curTime == lcm_value) {
+        if (!taskSet.getTasks().empty()) {
+            std::cout << "Task set is not empty" << std::endl;
             return false;
-        for(int i = 0; i < taskSet.getNumProcessors(); ++i) 
-            if(!tasks[i].empty())
+        }
+        for (int i = 0; i < taskSet.getNumProcessors(); ++i)
+            if (!tasks[i].empty()) {
+                std::cout << "Processor " << i << " is not empty" << std::endl;
                 return false;
+            }
         return true;
     }
 
     bool res = false;
 
-    if(!taskSet.getTasks().empty() && curTime == (*taskSet.getTasks().begin()).getStartTime()) {
+    if (!taskSet.getTasks().empty() && curTime == (*taskSet.getTasks().begin()).getStartTime()) {
         Task newTask = *taskSet.getTasks().begin();
-        for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
-            if(newTask.getProcessor() != -1 && newTask.getProcessor() != i)
+        for (int i = 0; i < taskSet.getNumProcessors(); ++i) {
+            if (newTask.getProcessor() != -1 && newTask.getProcessor() != i)
                 continue;
             bool first_appear = newTask.getProcessor() == -1;
-            if(first_appear) newTask.setProcessor(i);
+            if (first_appear) newTask.setProcessor(i);
             tasks[i].insert(newTask);
+            std::cout << " num task "<<i<<" after inserting: " << tasks[i].size() << std::endl;
             taskSet.removeTask();
+            std::cout << "num taskSet after removing: " << taskSet.getTasks().size() << std::endl;
             res |= backtrackEDF(curTime, taskSet);
+            std::cout << "new task: " << newTask.getStartTime()<<" "<<newTask.getComputationTime()<<" "<<newTask.getPriorityLevel()<<" "<< newTask.getPeriod() << std::endl;
             taskSet.addTask(newTask);
+            std::cout << "num task after adding: " << taskSet.getTasks().size() << std::endl;
             tasks[i].erase(newTask);
-            if(first_appear) newTask.setProcessor(-1);
+            std::cout << " num task "<<i<<" after erasing: " << tasks[i].size() << std::endl;
+            if (first_appear) newTask.setProcessor(-1);
         }
-    }
-
-    else {
-        for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
-            if(!tasks[i].empty() && !checkEDF(*tasks[i].begin(), curTime)) {
+    } else {
+        for (int i = 0; i < taskSet.getNumProcessors(); ++i) {
+            if (!tasks[i].empty() && !checkEDF(*tasks[i].begin(), curTime)) {
+                std::cout << "Processor " << i << " is not empty and not EDF" << std::endl;
                 return false;
             }
             updateProcess(i, taskSet);
         }
         res |= backtrackEDF(curTime + 1, taskSet);
     }
-    
+
     return res;
 }
 
-
-double runEDF(TaskSet taskSet)
-{
-    lcm = (int) taskSet.getLCMPeriod();
+double runEDF(TaskSet taskSet) {
+    lcm_value = (int) taskSet.getLCMPeriod();
     double res = 0;
-    for(Task &task : taskSet.getTasks()) {
+    for (Task &task: taskSet.getTasks()) {
         res += task.getComputationTime();
     }
     res = (double) res / (taskSet.getNumProcessors() * taskSet.getNumTasks());
-    // taskSet.printTaskSet();
     sortTaskSet(taskSet);
-    for(int i = 0; i < taskSet.getNumProcessors(); ++i) {
-        tasks[i].clear();        
+    for (int i = 0; i < taskSet.getNumProcessors(); ++i) {
+        tasks[i].clear();
     }
-    // taskSet.printTaskSet();
-    if(backtrackEDF(0, taskSet))
+    if (backtrackEDF(0, taskSet))
         return res;
     return -1.0;
-    // for(int curTime = 0; curTime <= lcm; ++curTime) {
-    //     while(it < taskSet.getTasks().end() && curTime == (*it).getStartTime()) {
-    //         ++it;
-    //         solutionSet.insert(*it);
-    //     }
-    //     if(solutionSet.empty())
-    //         continue;
-    //     if(!checkEDF(*solutionSet.begin(), curTime))
-    //         return false;
-    //     (*solutionSet.begin()).reduceComputationTimeRemaining();
-    //     updateProcess(solutionSet, taskSet);
-    // }
-    // return solutionSet.empty() && it == taskSet.getTasks().end();
 }
-

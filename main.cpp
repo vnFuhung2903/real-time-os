@@ -68,12 +68,6 @@ int main()
     {
         std::cerr << "Unable to open file!" << std::endl;
     }
-
-    /*
-     ghi thời gian chạy của mỗi taskset vào file csv
-     dùng csv vẽ đồ thị miêu tả sự khác nhau khi sử dụng kỹ thuật phân loại yêu cầu  avf khi không sử dụng
-    */
-
     // run EDF and define output file
     std::ofstream output; // Use ofstream for output operations
     output.open("Result.csv", ios ::out);
@@ -100,10 +94,12 @@ int main()
         // change time to milliseconds
         
     }
-    if (backtrackEDF(0,taskSetList[5]))
-    {
-        cout << "true";
-    }
+    // if (backtrackEDF(0,taskSetList[0])== true &&  backtrackEDF(0,taskSetList[1])== true && backtrackEDF(0, taskSetList[2])== true && backtrackEDF(0, taskSetList[3])== true && backtrackEDF(0, taskSetList[4])== true && backtrackEDF(0, taskSetList[5])== false)
+    // {
+    //     cout << "pass";
+    // }
+    // else
+    //     cout<< " error";
     // cout<< taskSetList[5].getNumProcessors();
     
     // updateProcess(1,taskSetList[0]);
@@ -112,7 +108,7 @@ int main()
     //     cout <<taskSetList[0].getTasks()[i].getPriorityLevel()<<endl;
     // }
     
-
+    cout<< runEDF(taskSetList[0]) << '\n';
 
 
     // output.close();

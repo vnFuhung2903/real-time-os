@@ -81,7 +81,7 @@ public:
         // print the priority level of each task in the task set
         for (const auto &task : m_tasks)
         {
-            std::cout << task.getPriorityLevel() << std::endl;
+            std::cout << task.getHardDeadline() << std::endl;
         }
     }
 

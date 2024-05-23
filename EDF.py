@@ -98,7 +98,7 @@ for i in range(0, numberOfTasks):
 show_plot()
 
 if CpuUtilization <= 1:
-    print("The system is schedule with cpu utilization: "+str(CpuUtilization))
+    print("The system is schedule with cpu utilization: " + str(CpuUtilization))
 else:
     print("The system is not schedule")
 root.mainloop()
