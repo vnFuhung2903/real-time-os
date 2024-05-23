@@ -133,8 +133,8 @@ public:
 
     bool operator<(const Task &other) const
     {
-        // if(this->getPriorityLevel() == other.getPriorityLevel())
-        //     return this->getComputationTimeRemaining() < other.getComputationTimeRemaining();
+        if(this->getPriorityLevel() == other.getPriorityLevel())
+            return this->getComputationTimeRemaining() < other.getComputationTimeRemaining();
         return this->getHardDeadline() < other.getHardDeadline();
     }
 };

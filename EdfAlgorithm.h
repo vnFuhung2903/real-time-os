@@ -15,4 +15,8 @@ bool checkEDF(Task task, int curTime);
 bool backtrackEDF(int curTime, TaskSet taskSet);
 
 double runEDF(TaskSet taskSet);
+bool backTrackTasks(TaskSet &taskSet, vector<TaskSet> &result, int index);
+vector<TaskSet> divideTasks(TaskSet &taskSet);
+bool runOneEDF(TaskSet taskSet);
+double runNewEDFs(TaskSet taskSet);
 #endif
