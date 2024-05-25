@@ -9,10 +9,10 @@ using namespace std;
 
 class Task
 {
-private:
+protected:
     int m_priorityLevel;
     string m_name;
-    int m_startTime;
+    int startTime;
     int m_computationTime;
     int m_hardDeadline;
     int m_period;
@@ -25,7 +25,7 @@ public:
     {
         m_priorityLevel = hardDeadline;
         m_name = name;
-        m_startTime = startTime;
+        this->startTime = startTime;
         m_computationTime = computationTime;
         m_hardDeadline = hardDeadline;
         m_period = period;
@@ -42,7 +42,7 @@ public:
         }
         m_priorityLevel = task.m_priorityLevel;
         m_name = task.m_name;
-        m_startTime = task.m_startTime;
+        this->startTime = task.startTime;
         m_computationTime = task.m_computationTime;
         m_hardDeadline = task.m_hardDeadline;
         m_period = task.m_period;
@@ -52,25 +52,25 @@ public:
         return *this;
     }
 
-    int getPriorityLevel() 
+    int getPriorityLevel() const
     {
         return m_priorityLevel;
     }
-    
+
 
     void setPriorityLevel(int priorityLevel)
     {
         m_priorityLevel = priorityLevel;
     }
 
-    int getStartTime() const
+    int getStartTime()
     {
-        return m_startTime;
+        return startTime;
     }
 
     void setStartTime(int startTime)
     {
-        m_startTime = startTime;
+        this->startTime = startTime;
     }
 
     int getComputationTime()
@@ -80,9 +80,8 @@ public:
 
     void reduceComputationTimeRemaining()
     {
-         --m_computationTimeRemaining;
+        --m_computationTimeRemaining;
     }
-
     int getHardDeadline() const
     {
         return m_hardDeadline;
@@ -95,15 +94,15 @@ public:
 
     void printTask()
     {
-        cout<<"PriorityLevel: "<< m_priorityLevel << ", Start Time: " << m_startTime << ", Computation Time: " << m_computationTime << ", Hard Deadline: " << m_hardDeadline << ", Period: " << m_period << endl;
+        cout<<"PriorityLevel: "<< m_priorityLevel << ", Start Time: " << startTime << ", Computation Time: " << m_computationTime << ", Hard Deadline: " << m_hardDeadline << ", Period: " << m_period << endl;
     }
 
-    string getName()
+    string getName() const
     {
         return m_name;
     }
 
-    int getComputationTimeRemaining() const
+    int getComputationTimeRemaining()
     {
         return m_computationTimeRemaining;
     }
@@ -133,9 +132,7 @@ public:
 
     bool operator<(const Task &other) const
     {
-        if(this->getPriorityLevel() == other.getPriorityLevel())
-            return this->getComputationTimeRemaining() < other.getComputationTimeRemaining();
-        return this->getHardDeadline() < other.getHardDeadline();
+        return this->getPriorityLevel() < other.getPriorityLevel();
     }
 };
 

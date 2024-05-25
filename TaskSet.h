@@ -68,20 +68,27 @@ public:
     void addTask(Task task)
     {
         m_tasks.push_back(task);
+        m_numTasks++;
     }
 
     void removeTask()
     {
         std::vector<Task>::iterator it = m_tasks.begin();
         m_tasks.erase(it);
+        m_numTasks--;
+    }
+
+    void removeLastTask(){
+        m_tasks.pop_back();
+        m_numTasks--;
     }
 
     void printTaskSet()
     {
         // print the priority level of each task in the task set
-        for (const auto &task : m_tasks)
+        for ( auto &task : m_tasks)
         {
-            std::cout << task.getHardDeadline() << std::endl;
+            std::cout<<task.getStartTime()<<" " << task.getPriorityLevel() << std::endl;
         }
     }
 
@@ -137,6 +144,24 @@ public:
         }
         return lcm;
     }
-};
 
+    bool checkEdfOneProcessor(){
+        double res = 0;
+        for(Task &task : m_tasks) {
+            res +=(double ) task.getComputationTime()/task.getPeriod();
+        }
+        if (res>1){
+            return false;
+        } else{
+            return true;
+        }
+    }
+    double getUtilization(){
+        double res = 0;
+        for(Task &task : m_tasks) {
+            res +=(double ) task.getComputationTime()/task.getPeriod();
+        }
+        return res;
+    }
+};
 #endif

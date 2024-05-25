@@ -47,11 +47,7 @@ int main()
             for (int i = 0; i < numTasks; i++)
             {
                 std::getline(file, line);
-                std::string startTime;
-                std::string computationTime;
-                std::string softDeadline;
-                std::string hardDeadline;
-                std::string period;
+                std::string startTime, computationTime, softDeadline, hardDeadline, period;
                 std::stringstream ss5(line);
                 std::getline(ss5, startTime, ',');
                 std::getline(ss5, computationTime, ',');
@@ -69,7 +65,7 @@ int main()
         std::cerr << "Unable to open file!" << std::endl;
     }
     // run EDF and define output file
-    std::ofstream output; // Use ofstream for output operations
+    std::ofstream output; 
     output.open("Result.csv", ios ::out);
     /*
     Task sets TaskSet
@@ -85,14 +81,14 @@ int main()
     NtEDFmaxOP the number of tasks across the deadline in runEDFmaxOverdueProcesses
     */
     // output << "TaskSet,TrEDF,NtEDF,TrEDFminT,NtEDFminT,TrEDFmaxT,NtEDFmaxT,TrEDFminOP,NtEDFminOP,TrEDFmaxOP,NtEDFmaxOP" << endl;
-    for (int i = 0; i < taskSetList.size() ; i++)
-    {
-        output << "TaskSet" << i << ",";
-        // cout << backtrackEDF(0,taskSetList[i]) << '\n';
-        // cout<< checkEDF(taskSetList[i],0) << '\n';
-
-        // change time to milliseconds
-        
+    for( TaskSet &taskSet: taskSetList){
+        vector<TaskSet> result = divideTasks(taskSet);
+        if (result.size() == 0){
+            cout << "No solution" << endl;
+        } else {
+            cout << "Have solution" << endl;
+            cout<< runEDF(taskSet) << endl;
+        }
     }
     // if (backtrackEDF(0,taskSetList[0])== true &&  backtrackEDF(0,taskSetList[1])== true && backtrackEDF(0, taskSetList[2])== true && backtrackEDF(0, taskSetList[3])== true && backtrackEDF(0, taskSetList[4])== true && backtrackEDF(0, taskSetList[5])== false)
     // {
@@ -101,16 +97,15 @@ int main()
     // else
     //     cout<< " error";
     // cout<< taskSetList[5].getNumProcessors();
-    
+
     // updateProcess(1,taskSetList[0]);
     // for (int i = 0; i < taskSetList[0].getNumTasks(); i++)
     // {
     //     cout <<taskSetList[0].getTasks()[i].getPriorityLevel()<<endl;
     // }
-    
-    cout<< runEDF(taskSetList[0]) << '\n';
 
+    // cout << runEDF(taskSetList[0]) << '\n';
 
-    // output.close();
+    output.close();
     return 0;
 }

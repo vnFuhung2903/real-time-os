@@ -54,47 +54,36 @@ void updateProcess(int id, TaskSet &taskSet) {
     std::multiset<Task>::iterator it = tasks[id].begin();
     Task newTask = (*it);
     tasks[id].erase(it);
-    std::cout << " num task be removed " << id << ": " << tasks[id].size() << std::endl;
-    std::cout << "newTask time remaining: " << newTask.getComputationTimeRemaining() << std::endl;
+
     newTask.reduceComputationTimeRemaining();
-    std::cout << "After reducing computation time remaining: " << newTask.getComputationTimeRemaining() << std::endl;
 
     if (newTask.getComputationTimeRemaining() != 0) {
         tasks[id].insert(newTask);
-        std::cout << " num task be added " << id << ": " << tasks[id].size() << std::endl;
         return;
     }
 
     newTask.incrementCurrPeriod();
-    std::cout << "After incrementing current period: " << newTask.getCurrPeriod() << std::endl;
 
     if (newTask.getCurrPeriod() * newTask.getPeriod() > lcm_value) {
         return;
     }
 
     newTask.setPriorityLevel(newTask.getPriorityLevel() + newTask.getPeriod());
-    std::cout << "After updating priority level: " << newTask.getPriorityLevel() << std::endl;
     newTask.setStartTime(newTask.getStartTime() + newTask.getPeriod());
-    std::cout << "After updating start time: " << newTask.getStartTime() << std::endl;
     newTask.setComputationTimeRemaining(newTask.getComputationTime());
-    std::cout << "After resetting computation time remaining: " << newTask.getComputationTimeRemaining() << std::endl;
 
     taskSet.addTask(newTask);
-    std::cout << "num task  in taskSet:  " << taskSet.getTasks().size() << endl;
     sortTaskSet(taskSet);
     return;
 }
 
 bool backtrackEDF(int curTime, TaskSet taskSet) {
-    cout << " step: " << curTime << endl;
     if (curTime == lcm_value) {
         if (!taskSet.getTasks().empty()) {
-            std::cout << "Task set is not empty" << std::endl;
             return false;
         }
         for (int i = 0; i < taskSet.getNumProcessors(); ++i)
             if (!tasks[i].empty()) {
-                std::cout << "Processor " << i << " is not empty" << std::endl;
                 return false;
             }
         return true;
@@ -110,22 +99,15 @@ bool backtrackEDF(int curTime, TaskSet taskSet) {
             bool first_appear = newTask.getProcessor() == -1;
             if (first_appear) newTask.setProcessor(i);
             tasks[i].insert(newTask);
-            std::cout << " num task " << i << " after inserting: " << tasks[i].size() << std::endl;
             taskSet.removeTask();
-            std::cout << "num taskSet after removing: " << taskSet.getTasks().size() << std::endl;
             res |= backtrackEDF(curTime, taskSet);
-            std::cout << "new task: " << newTask.getStartTime() << " " << newTask.getComputationTime() << " "
-                      << newTask.getPriorityLevel() << " " << newTask.getPeriod() << std::endl;
             taskSet.addTask(newTask);
-            std::cout << "num task after adding: " << taskSet.getTasks().size() << std::endl;
             tasks[i].erase(newTask);
-            std::cout << " num task " << i << " after erasing: " << tasks[i].size() << std::endl;
             if (first_appear) newTask.setProcessor(-1);
         }
     } else {
         for (int i = 0; i < taskSet.getNumProcessors(); ++i) {
             if (!tasks[i].empty() && !checkEDF(*tasks[i].begin(), curTime)) {
-                std::cout << "Processor " << i << " is not empty and not EDF" << std::endl;
                 return false;
             }
             updateProcess(i, taskSet);
@@ -155,31 +137,16 @@ double runEDF(TaskSet taskSet) {
 bool backTrackTasks(TaskSet &taskSet, vector<TaskSet> &result, int index) {
     if (index == (taskSet.getTasks().size())) {
         for (int i = 0; i < taskSet.getNumProcessors(); ++i) {
-            cout << "check processor " << i << endl;
             if (!result[i].checkEdfOneProcessor()) return false;
         }
-        cout << "true" << endl;
-//        exit(0);
         return true;
     }
     double rate = (double) taskSet.getTasks()[index].getComputationTime() / taskSet.getTasks()[index].getPeriod();
     for (int i = 0; i < taskSet.getNumProcessors(); ++i) {
         if (result[i].getUtilization() + rate <= 1) {
             result[i].addTask(taskSet.getTasks()[index]);
-            // Print all tasks in the result
-            std::cout << "Processor " << i << " tasks: ";
-            for (const auto &task: result[i].getTasks()) {
-                std::cout << task.getName() << " ";
-            }
-            std::cout << std::endl;
             if (backTrackTasks(taskSet, result, index + 1)) return true;
             result[i].removeLastTask();
-            std::cout << "Processor " << i << " tasks: ";
-            for (const auto &task: result[i].getTasks()) {
-                std::cout << task.getName() << " ";
-            }
-            std::cout << std::endl;
-
         }
     }
     return false;
@@ -233,9 +200,7 @@ bool runOneEDF(TaskSet taskSet) {
 
 double runNewEDFs(TaskSet taskSet) {
     clock_t start = clock();
-
     vector<TaskSet> taskSets = divideTasks(taskSet);
-
     for(TaskSet &taskSet: taskSets) {
         if (!runOneEDF(taskSet)) {
             return -1.0;
