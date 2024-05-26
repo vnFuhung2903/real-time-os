@@ -59,7 +59,7 @@ def create_new_window2():
 
     # Set the labels and title
     ax.set_xlabel('TaskSet')
-    ax.set_ylabel('num Tasks')
+    ax.set_ylabel('Num Tasks')
     ax.set_title('The number of tasks across deadline ')
     ax.grid(True)
 
@@ -71,10 +71,10 @@ def create_new_window2():
 def create_new_window3():
     os.system('start cmd /k python EDF.py')
 
-button1 = tk.Button(root, text="Comparison time processes", command=create_new_window1, width=30, height=3, wraplength=200)
+button1 = tk.Button(root, text="Average of verifying time", command=create_new_window1, width=30, height=3, wraplength=200)
 button1.pack(pady=5, padx=15)
 
-button2 = tk.Button(root, text="Comparison number of off deadline processes", command=create_new_window2, width=30, height=3, wraplength=200)
+button2 = tk.Button(root, text="Average of time running", command=create_new_window2, width=30, height=3, wraplength=200)
 button2.pack(pady=5, padx=15)
 
 button3 = tk.Button(root, text="Processes management", command=create_new_window3, width=30, height=3, wraplength=200)

@@ -68,7 +68,7 @@ public:
     void addTask(Task task)
     {
         m_tasks.push_back(task);
-        m_numTasks++;
+        // m_numTasks++;
     }
 
     void removeTask()

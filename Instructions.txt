@@ -23,7 +23,6 @@ Here is an example Task Set:
 Begin
 3  // 3 tiến trình
 1 // 1 processors
-Y
 0,2,5,5,5 //  start 0 computation 2 hard deadline 5 period 5
 1,1,4,4,4
 2,2,20,20,20
