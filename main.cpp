@@ -65,12 +65,13 @@ int main()
     output.open("Result.csv", ios ::out);
     output << "Num Task Set,Num Tasks,Time running,Cpu utilization" << endl;
     clock_t start = clock();
-    int totalTasKs=0;
+    int totalTasKs = 0;
     for (int i = 0; i < taskSetList.size(); i++)
     {
-        totalTasKs+=taskSetList[i].getTasks().size();
+        totalTasKs += taskSetList[i].getTasks().size();
     }
-    
+    double cpuUtilization = 0;
+
     for (int i = 0; i < taskSetList.size(); i++)
     {
         // cout<<taskSetList[i].getLCMPeriod()<< endl;
@@ -81,28 +82,20 @@ int main()
             taskSet.setNumTasks(taskSet.getTasks().size());
             taskSet.setNumProcessors(1);
         }
-        // // // clock_t end1 = clock();
-        // // runOneEDF(taskSetList[i]);
-        for( TaskSet &taskSet : result)
+        for (TaskSet &taskSet : result)
         {
             runOneEDF(taskSet);
         }
-        // double rn = runEDF(taskSetList[i]);
-        // clock_t end2 = clock();
-        // double cpuUtilization = 0;
-        // for (TaskSet &taskSet : result)
-        // {
-        //     cpuUtilization += (double) taskSet.getUtilization();
-        // }
-        // cout << "Cpu utilization: " << cpuUtilization/result.size() << endl;
-
-        // double verifyingTime = (double)(end1 - start) / CLOCKS_PER_SEC * 1e12;
-        // double runningTime = (double)(end2 - start) / CLOCKS_PER_SEC * 1e12;
-        // output << taskSetList[i].getNumTasks() << "," << taskSetList[i].getNumProcessors() << "," << verifyingTime << "," << runningTime << "," << cpuUtilization << endl;
+        double m = 0;
+        for (TaskSet &taskSet : result)
+        {
+            n += (double)taskSet.getUtilization();
+        }
+        cpuUtilization += n / taskSetList[i].getTasks().size();
     }
     clock_t end = clock();
     double time = ((double)(end - start) / CLOCKS_PER_SEC) * 1e12;
-    output << "200,"<<totalTasKs<<"," << time<< ","<< << endl;
+    output << "200," << totalTasKs << "," << time << "," << cpuUtilization / 200 << endl;
     output.close();
     return 0;
 }

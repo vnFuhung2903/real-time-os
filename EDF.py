@@ -72,7 +72,7 @@ def show_plot():
                 task[i]["Current Period"] += 1
         if sorted_tasks:
             top_element = sorted_tasks[0]
-            if step <= top_element["Deadline"]:
+            if step < top_element["Deadline"]:
                 gnt.broken_barh([(step, 1)], (10 * top_element["Task Number"], 5), facecolors='blue')
                 top_element["TimeRemaining"] -= 1
             else:
