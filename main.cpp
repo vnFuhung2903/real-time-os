@@ -65,13 +65,13 @@ int main()
     output.open("Result.csv", ios ::out);
     output << "TaskSet,Is Schedtable,Num Tasks,Num processors,Verifying time,Time running,Cpu utilization" << endl;
     cout << taskSetList.size() << endl;
-    vector<TaskSet> result = divideTasks(taskSetList[0]);
+    // vector<TaskSet> result = divideTasks(taskSetList[0]);
     for (int i = 0; i < taskSetList.size(); i++)
     {
         output << "TaskSet " << i << ",";
         // clock_t start = clock();
         vector<TaskSet> result = divideTasks(taskSetList[i]);
-        cout << result.size() << endl;
+        // cout << result.size() << endl;
         for (TaskSet &taskSet : result)
         {
             taskSet.setNumTasks(taskSet.getTasks().size());
@@ -79,6 +79,14 @@ int main()
         }
         // clock_t end1 = clock();
         runOneEDF(taskSetList[i]);
+        // for( TaskSet &taskSet : result)
+        // {
+        //     if(runOneEDF(taskSet))
+        //     {
+        //         cout<< "ok" << ",";
+        //     }
+            
+        // }
         // double rn = runEDF(taskSetList[i]);
         // clock_t end2 = clock();
         // double cpuUtilization = 0;

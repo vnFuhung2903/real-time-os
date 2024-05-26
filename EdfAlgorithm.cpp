@@ -220,7 +220,7 @@ bool runOneEDF(TaskSet taskSet)
 {
     //    run taskSet 1 processor
     std::multiset<Task> tasksN;
-    unsigned long long lcm_value = taskSet.getLCMPeriod();
+    int lcm_value = (int)taskSet.getLCMPeriod();
     for (int step = 0; step < lcm_value; ++step)
     {
         for (Task &task : taskSet.getTasks())
