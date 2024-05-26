@@ -14,8 +14,8 @@ int main()
 {
     // import data
     vector<TaskSet> taskSetList;
-    std::ifstream file("RTaskSets.txt"); // Open file
-    // std::ifstream file("TestTaskSet.txt"); // Open file
+    // std::ifstream file("RTaskSets.txt"); // Open file
+    std::ifstream file("TestTaskSet.txt"); // Open file
     std::string line;
 
     if (file.is_open())
@@ -63,13 +63,17 @@ int main()
     // run EDF and define output file
     std::ofstream output;
     output.open("Result.csv", ios ::out);
-    output << "TaskSet,Is Schedtable,Num Tasks,Num processors,Verifying time,Time running,Cpu utilization" << endl;
-    cout << taskSetList.size() << endl;
-    // vector<TaskSet> result = divideTasks(taskSetList[0]);
+    output << "Num Task Set,Num Tasks,Time running,Cpu utilization" << endl;
+    clock_t start = clock();
+    int totalTasKs=0;
     for (int i = 0; i < taskSetList.size(); i++)
     {
-        output << "TaskSet " << i << ",";
-        // clock_t start = clock();
+        totalTasKs+=taskSetList[i].getTasks().size();
+    }
+    
+    for (int i = 0; i < taskSetList.size(); i++)
+    {
+        // cout<<taskSetList[i].getLCMPeriod()<< endl;
         vector<TaskSet> result = divideTasks(taskSetList[i]);
         // cout << result.size() << endl;
         for (TaskSet &taskSet : result)
@@ -77,16 +81,12 @@ int main()
             taskSet.setNumTasks(taskSet.getTasks().size());
             taskSet.setNumProcessors(1);
         }
-        // clock_t end1 = clock();
-        runOneEDF(taskSetList[i]);
-        // for( TaskSet &taskSet : result)
-        // {
-        //     if(runOneEDF(taskSet))
-        //     {
-        //         cout<< "ok" << ",";
-        //     }
-            
-        // }
+        // // // clock_t end1 = clock();
+        // // runOneEDF(taskSetList[i]);
+        for( TaskSet &taskSet : result)
+        {
+            runOneEDF(taskSet);
+        }
         // double rn = runEDF(taskSetList[i]);
         // clock_t end2 = clock();
         // double cpuUtilization = 0;
@@ -100,6 +100,9 @@ int main()
         // double runningTime = (double)(end2 - start) / CLOCKS_PER_SEC * 1e12;
         // output << taskSetList[i].getNumTasks() << "," << taskSetList[i].getNumProcessors() << "," << verifyingTime << "," << runningTime << "," << cpuUtilization << endl;
     }
+    clock_t end = clock();
+    double time = ((double)(end - start) / CLOCKS_PER_SEC) * 1e12;
+    output << "200,"<<totalTasKs<<"," << time<< ","<< << endl;
     output.close();
     return 0;
 }
