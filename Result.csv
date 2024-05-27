@@ -1,1 +1,6 @@
-Num Task Set,Num Tasks,Num processors,Time running,Cpu utilization
+Time,Num Task Set,Num Tasks,Time running,Cpu utilization
+0,200,15000,6506,0.00202607
+1,200,15000,6712,0.00202607
+2,200,15000,6801,0.00202607
+3,200,15000,8497,0.00202607
+4,200,15000,8464,0.00202607

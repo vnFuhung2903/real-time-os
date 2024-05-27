@@ -142,6 +142,7 @@ public:
             unsigned long long period = task.getPeriod();
             lcm = (lcm / __gcd(period, lcm)) * period;
         }
+        if (lcm>1000|| lcm<0) return 1000;
         return lcm;
     }
 

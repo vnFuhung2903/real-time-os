@@ -51,16 +51,11 @@ def create_new_window2():
     fig, ax = plt.subplots(figsize=(10, 6))
 
     # Plot the data
-    ax.plot(data['TaskSet'], data['NtEDF'], marker='o')
-    ax.plot(data['TaskSet'], data['NtEDFminT'], marker='o')
-    ax.plot(data['TaskSet'], data['NtEDFmaxT'], marker='o')
-    ax.plot(data['TaskSet'], data['NtEDFminOP'], marker='o')
-    ax.plot(data['TaskSet'], data['NtEDFmaxOP'], marker='o')
-
+    ax.plot(data['Time'], data['Time running']/(data['Num Tasks']*data['Num Task Set']), marker='o')
     # Set the labels and title
-    ax.set_xlabel('TaskSet')
-    ax.set_ylabel('Num Tasks')
-    ax.set_title('The number of tasks across deadline ')
+    ax.set_xlabel('Time')
+    ax.set_ylabel('Time running')
+    ax.set_title('Average of time running of EDF algorithm')
     ax.grid(True)
 
     # Create a new canvas and add it to the window

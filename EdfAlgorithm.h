@@ -18,5 +18,5 @@ double runEDF(TaskSet taskSet);
 bool backTrackTasks(TaskSet &taskSet, vector<TaskSet> &result, int index);
 vector<TaskSet> divideTasks(TaskSet &taskSet);
 bool runOneEDF(TaskSet taskSet);
-double runNewEDFs(TaskSet taskSet);
+bool runNewONeEDFs(TaskSet taskSet);
 #endif

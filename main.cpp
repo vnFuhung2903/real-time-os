@@ -14,8 +14,8 @@ int main()
 {
     // import data
     vector<TaskSet> taskSetList;
-    // std::ifstream file("RTaskSets.txt"); // Open file
-    std::ifstream file("TestTaskSet.txt"); // Open file
+    std::ifstream file("RTaskSets.txt"); // Open file
+    // std::ifstream file("TestTaskSet.txt"); // Open file
     std::string line;
 
     if (file.is_open())
@@ -62,40 +62,46 @@ int main()
     }
     // run EDF and define output file
     std::ofstream output;
-    output.open("Result.csv", ios ::out);
-    output << "Num Task Set,Num Tasks,Time running,Cpu utilization" << endl;
-    clock_t start = clock();
-    int totalTasKs = 0;
-    for (int i = 0; i < taskSetList.size(); i++)
-    {
-        totalTasKs += taskSetList[i].getTasks().size();
-    }
-    double cpuUtilization = 0;
 
-    for (int i = 0; i < taskSetList.size(); i++)
+    output.open("Result.csv", ios ::out );
+    output << "Time,Num Task Set,Num Tasks,Time running,Cpu utilization" << endl;
+    for (int timeN = 0; timeN < 5; timeN++)
     {
-        // cout<<taskSetList[i].getLCMPeriod()<< endl;
-        vector<TaskSet> result = divideTasks(taskSetList[i]);
-        // cout << result.size() << endl;
-        for (TaskSet &taskSet : result)
+        clock_t start = clock();
+        int totalTasKs = 0;
+        for (int i = 0; i < taskSetList.size(); i++)
         {
-            taskSet.setNumTasks(taskSet.getTasks().size());
-            taskSet.setNumProcessors(1);
+            totalTasKs += taskSetList[i].getTasks().size();
         }
-        for (TaskSet &taskSet : result)
+        double cpuUtilization = 0;
+
+        for (int i = 0; i < taskSetList.size(); i++)
         {
-            runOneEDF(taskSet);
+            // cout<<taskSetList[i].getLCMPeriod()<< endl;
+            vector<TaskSet> result = divideTasks(taskSetList[i]);
+            // cout << result.size() << endl;
+            for (TaskSet &taskSet : result)
+            {
+                taskSet.setNumTasks(taskSet.getTasks().size());
+                taskSet.setNumProcessors(1);
+            }
+            for (TaskSet &taskSet : result)
+            {
+                runOneEDF(taskSet);
+            }
+            double n = 0;
+            for (TaskSet &taskSet : result)
+            {
+                n += (double)taskSet.getUtilization();
+            }
+            cpuUtilization += n / taskSetList[i].getTasks().size();
         }
-        double m = 0;
-        for (TaskSet &taskSet : result)
-        {
-            n += (double)taskSet.getUtilization();
-        }
-        cpuUtilization += n / taskSetList[i].getTasks().size();
+        clock_t end = clock();
+        double time = ((double)(end - start) / CLOCKS_PER_SEC) * 1000;
+
+        output << timeN << ",200," << totalTasKs << "," << time << "," << cpuUtilization / totalTasKs << endl;
+        ;
     }
-    clock_t end = clock();
-    double time = ((double)(end - start) / CLOCKS_PER_SEC) * 1e12;
-    output << "200," << totalTasKs << "," << time << "," << cpuUtilization / 200 << endl;
     output.close();
     return 0;
 }

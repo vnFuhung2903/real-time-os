@@ -262,18 +262,48 @@ bool runOneEDF(TaskSet taskSet)
     else
         return false;
 }
-double runNewEDFs(TaskSet taskSet)
+bool runNewONeEDFs(TaskSet taskSet)
 {
-    clock_t start = clock();
-    vector<TaskSet> taskSets = divideTasks(taskSet);
-    for (TaskSet &taskSet : taskSets)
+    std::multiset<Task> tasksN;
+    unsigned long long lcm_value = taskSet.getLCMPeriod();
+    for (unsigned long long step = 0; step < lcm_value; ++step)
     {
-        if (!runOneEDF(taskSet))
+        for (Task &task : taskSet.getTasks())
         {
-            return -1.0;
+            if ((unsigned long long)task.getStartTime() == step)
+            {
+                tasksN.insert(task);
+            }
+        }
+        if (!tasksN.empty())
+        {
+            Task task = *tasksN.begin();
+            tasksN.erase(tasksN.begin());
+            if (step < task.getPriorityLevel())
+            {
+                task.reduceComputationTimeRemaining();
+                if (task.getComputationTimeRemaining() != 0)
+                {
+                    tasksN.insert(task);
+                }
+                else
+                {
+                    task.incrementCurrPeriod();
+                    if ((unsigned long long)(task.getCurrPeriod() * task.getPeriod()) <= lcm_value)
+                    {
+                        task.setPriorityLevel(task.getPriorityLevel() + task.getPeriod());
+                        task.setStartTime(task.getStartTime() + task.getPeriod());
+                        task.setComputationTimeRemaining(task.getComputationTime());
+                        taskSet.addTask(task);
+                    }
+                }
+            }
         }
     }
-    clock_t end = clock();
-    double time = ((double)(end - start) / CLOCKS_PER_SEC) * 1000;
-    return time / (taskSet.getNumTasks() * taskSet.getNumProcessors());
+    if (tasksN.empty())
+    {
+        return true;
+    }
+    else
+        return false;
 }
