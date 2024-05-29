@@ -52,9 +52,12 @@ def create_new_window2():
 
     # Plot the data
     ax.plot(data['Time'], data['Time running']/(data['Num Tasks']*data['Num Task Set']), marker='o')
+    print("av: ",data['Time running'].mean()/(200*15000))
+    print("av: ",max(data['Time running'])/(200*15000)-data['Time running'].mean()/(200*15000))
+    print("av: ",min(data['Time running'])/(200*15000))
     # Set the labels and title
     ax.set_xlabel('Time')
-    ax.set_ylabel('Time running')
+    ax.set_ylabel('Time running/numTasks')
     ax.set_title('Average of time running of EDF algorithm')
     ax.grid(True)
 
