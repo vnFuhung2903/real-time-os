@@ -53,6 +53,7 @@ def create_new_window2():
     # Plot the data
     ax.plot(data['Time'], data['Time running']/(data['Num Tasks']*data['Num Task Set']), marker='o')
     print("av: ",data['Time running'].mean()/(200*15000))
+    print("av: ",max(data['Time running'])/(200*15000))
     print("av: ",max(data['Time running'])/(200*15000)-data['Time running'].mean()/(200*15000))
     print("av: ",min(data['Time running'])/(200*15000))
     # Set the labels and title
