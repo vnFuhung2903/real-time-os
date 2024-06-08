@@ -94,12 +94,12 @@ int main()
             {
                 n += (double)taskSet.getUtilization();
             }
-            cpuUtilization += n / taskSetList[i].getTasks().size();
+            cpuUtilization += n / result.size();
         }
         clock_t end = clock();
         double time = ((double)(end - start) / CLOCKS_PER_SEC) * 1000;
 
-        output << timeN << ",200," << totalTasKs << "," << time << "," << cpuUtilization / totalTasKs << endl;
+        output << timeN << ",200," << totalTasKs << "," << time << "," << cpuUtilization / 200 << endl;
         ;
     }
     output.close();
